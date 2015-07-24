@@ -29,18 +29,24 @@
 
     // Dictionary (systemDictionary is global variable from adapter-settings.js)
     systemDictionary = {
-        "Pushbullet adapter settings":    {"de": "Pushbullet-Adapter Einstellungen"},
-        "API-Key:": {"en": "API-Key:", "de": "API-Key:"},
-        "Recipient:":        {"en": "Recipient (EMail or device ID):",        "de": "Empfänger (EMail oder Geräte ID):"},
-        "Description":       {"en": "Description",       "de": "Beschreibung"},
+        "Pushbullet adapter settings":  {"de": "Pushbullet-Adapter Einstellungen", "ru": "Настройки драйвера Pushbullet"},
+        "API-Key:":                {"de": "API-Key:", "ru": "API-Key"},
+        "Recipient:":                 {"en": "Recipient (EMail or device ID):",  "de": "Empfänger (EMail oder Geräte ID):",  "ru": "Получатель (E-Mail или ID устройства):"},
+        "Description":                {"en": "Description",   "de": "Beschreibung",   "ru": "Описание"},
+        "name":                   {"de": "Name",          "ru": "Имя"},
+        "type":                   {"de": "Typ",          "ru": "Тип"},
+        "id":                      {"de": "ID",          "ru": "ID"},
+        "Load devices":             {"de": "Geräte laden",    "ru": "Показать устройства"},
         "Description text":  {
             "en": "Pushbullet adapter allows to push notes to devices via Pushbullet.<br>"
             +"Get you API-Key/Access-Token from <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">here</a><br>"
             +"To find the ID of your device press the get devices button and copy and paste the id to the recipient field.",
-
             "de": "Der Pushbullet Adapter erlaubt es dir push Nachrichten über Pushbullet zu schicken.<br>"
             +"Den API-Key/Access-Token bekommt man <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">hier</a><br>"
             +"Um die ID eines Gerätes zu finden benutze den Geräte laden Knopf und kopiere die ID des Gerätes in das Empfänger Feld.",
+            "ru": "Драйвер Pushbullet позволяет отсылать сообщения на устройства через сервис Pushbullet.<br>"
+            +"API-Key/Access-Token (ключ) можно получить по адресу <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">здесь</a><br>"
+            +"Что бы выяснить ID устройства воспользуйся кнопкой \"Показать устройства\" и скопируй полученный ID в поле \"Получатель\".",
         }
     };
 
@@ -59,30 +65,27 @@
         }
     }
 
-    function load(settings) {
+    function load(settings, onChange) {
         for (var key in settings) {
             // example: select elements with id=key and class=value and insert value
             if ($('#' + key + '.value').attr('type') == 'checkbox') {
                 $('#' + key + '.value').prop('checked', settings[key]).change(function() {
-                    changed = true;
-                    $('#save').button("enable");
+                    onChange();
                 });
             } else {
                 $('#' + key + '.value').val(settings[key]).change(function() {
-                    changed = true;
-                    $('#save').button("enable");
+                    onChange();
                 }).keyup(function() {
-                    changed = true;
-                    $('#save').button("enable");
+                    onChange();
                 });
             }
         }
         $('#btnDevices').button().click(loadDevices);
-
+        onChange(false);
     }
 
     function loadDevices() {
-        editTable('devices', ['name', 'type', 'id'], [], 10);
+        editTable('devices', ['name', 'type', 'id'], [], 460);
         var newValue = JSON.stringify(getSettings());
         if (changed) {
             showMessage("Bitte die neuen Einstellungen speichern.");
@@ -154,7 +157,7 @@
 <div id="adapter-container">
 
     <table><tr>
-        <td><img src="pushbullet.png"></td>
+        <td><img src="pushbullet.png" height="auto" width="128"></td>
         <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">Pushbullet adapter settings</h3></td>
     </tr></table>
 
@@ -168,17 +171,12 @@
             <td colspan='5'><input class="value" id="receivermail" type="text"/></td>
         </tr>
         <tr>
-                <td colspan="6" style="height:20px"></td>
+            <td colspan="6" style="height:20px"></td>
         </tr>
-
     </table>
-    <p>
     <h1 class="translate">Description</h1>
-    <span class="translate">Description text</span>
-    </p>
-
-    <button id="btnDevices">Geräte laden</button>
-    <br>
+    <span class="translate">Description text</span><br>
+    <button id="btnDevices" class="translateB">Load devices</button>
     <table id="devices"></table><div id="pager-devices"></div>
 </div>
 
