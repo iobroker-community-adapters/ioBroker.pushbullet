@@ -46,6 +46,8 @@ sendTo("pushbullet", {
     type: "file"            //Type file
 });
 
+```
+
 ## License
 
 The MIT License (MIT)
