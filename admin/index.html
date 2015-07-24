@@ -1,0 +1,185 @@
+<html>
+
+<!-- these 4 files always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../lib/css/themes/jquery-ui/redmond/jquery-ui.min.css"/>
+<script type="text/javascript" src="../../lib/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../socket.io/socket.io.js"></script>
+<script type="text/javascript" src="../../lib/js/jquery-ui-1.10.3.full.min.js"></script>
+
+
+<!-- optional: use jqGrid-->
+<link rel="stylesheet" type="text/css" href="../../lib/css/jqGrid/ui.jqgrid-4.5.4.css"/>
+<script type="text/javascript" src="../../lib/js/jqGrid/jquery.jqGrid-4.5.4.min.js"></script>
+<script type="text/javascript" src="../../lib/js/jqGrid/grid.locale-all.js"></script>
+
+
+<!-- optional: use multiselect
+<link rel="stylesheet" type="text/css" href="../../lib/css/jquery.multiselect-1.13.css"/>
+<script type="text/javascript" src="../../lib/js/jquery.multiselect-1.13.min.js"></script>
+-->
+
+<!-- these two file always have to be included -->
+<link rel="stylesheet" type="text/css" href="../../css/adapter.css"/>
+<script type="text/javascript" src="../../js/translate.js"></script>
+<script type="text/javascript" src="../../js/adapter-settings.js"></script>
+
+
+<!-- you have to define 2 functions in the global scope: -->
+<script type="text/javascript">
+
+    // Dictionary (systemDictionary is global variable from adapter-settings.js)
+    systemDictionary = {
+        "Pushbullet adapter settings":    {"de": "Pushbullet-Adapter Einstellungen"},
+        "API-Key:": {"en": "API-Key:", "de": "API-Key:"},
+        "Recipient:":        {"en": "Recipient (EMail or device ID):",        "de": "Empfänger (EMail oder Geräte ID):"},
+        "Description":       {"en": "Description",       "de": "Beschreibung"},
+        "Description text":  {
+            "en": "Pushbullet adapter allows to push notes to devices via Pushbullet.<br>"
+            +"Get you API-Key/Access-Token from <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">here</a><br>"
+            +"To find the ID of your device press the get devices button and copy and paste the id to the recipient field.",
+
+            "de": "Der Pushbullet Adapter erlaubt es dir push Nachrichten über Pushbullet zu schicken.<br>"
+            +"Den API-Key/Access-Token bekommt man <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">hier</a><br>"
+            +"Um die ID eines Gerätes zu finden benutze den Geräte laden Knopf und kopiere die ID des Gerätes in das Empfänger Feld.",
+        }
+    };
+
+    function setValue(id, value) {
+        // example: select elements with id=key and class=value and insert value
+        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+            $('#' + id + '.value').prop('checked', value).change(function() {
+                onChange();
+            });
+        } else {
+            $('#' + id + '.value').val(value).change(function() {
+                onChange();
+            }).keyup(function() {
+                onChange();
+            });
+        }
+    }
+
+    function load(settings) {
+        for (var key in settings) {
+            // example: select elements with id=key and class=value and insert value
+            if ($('#' + key + '.value').attr('type') == 'checkbox') {
+                $('#' + key + '.value').prop('checked', settings[key]).change(function() {
+                    changed = true;
+                    $('#save').button("enable");
+                });
+            } else {
+                $('#' + key + '.value').val(settings[key]).change(function() {
+                    changed = true;
+                    $('#save').button("enable");
+                }).keyup(function() {
+                    changed = true;
+                    $('#save').button("enable");
+                });
+            }
+        }
+        $('#btnDevices').button().click(loadDevices);
+
+    }
+
+    function loadDevices() {
+        editTable('devices', ['name', 'type', 'id'], [], 10);
+        var newValue = JSON.stringify(getSettings());
+        if (changed) {
+            showMessage("Bitte die neuen Einstellungen speichern.");
+            return;
+        }
+        var $grid = $('#devices');
+        $.ajax({
+            url: "https://api.pushbullet.com/v2/devices",
+            headers: {"Authorization": "Bearer " + $('#apikey').val()},
+            type: 'GET',
+            success: function (data) {
+                for (i = 0; i < data.devices.length; i++) {
+                    console.log(data.devices[i].nickname);
+                    addToTable("devices", {name: data.devices[i].nickname, type: data.devices[i].type, id: data.devices[i].iden}, $grid, true);
+                }
+                $('#btnDevices').button("disable");
+            },
+            error: function(){
+                alert("Cannot get data");
+            }
+        });
+    }
+
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function saveHelper(obj, id, value) {
+        var ids = id.split('_');
+        if (ids.length === 1) {
+            obj[id] = value;
+        } else if (ids.length === 2) {
+            if (!obj[ids[0]]) obj[ids[0]] = {};
+            obj[ids[0]][ids[1]] = value;
+        } else if (ids.length === 3) {
+            if (ids[2] == "pass") {
+                value = encrypt("Zgfr56gFe87jJOM", value);
+            }
+
+            if (!obj[ids[0]]) obj[ids[0]] = {};
+            if (!obj[ids[0]][ids[1]]) obj[ids[0]][ids[1]] = {};
+            obj[ids[0]][ids[1]][ids[2]] = value;
+        }
+        return obj;
+    }
+
+    function getSettings() {
+        var obj = {};
+        $('.value').each(function () {
+            var $this = $(this);
+            var id = $this.attr('id');
+
+            if ($this.attr('type') == 'checkbox') {
+                obj = saveHelper(obj, id, $this.prop('checked'))
+            } else {
+                obj = saveHelper(obj, id, $this.val())
+            }
+        });
+        return obj;
+    }
+
+    // ... and the function save has to exist.
+    // you have to make sure the callback is called with the settings object as first param!
+    function save(callback) {
+        // example: select elements with class=value and build settings object
+        callback(getSettings());
+    }
+</script>
+
+<!-- you have to put your config page in a div with id adapter-container -->
+<div id="adapter-container">
+
+    <table><tr>
+        <td><img src="pushbullet.png"></td>
+        <td style="padding-top: 20px;padding-left: 10px"><h3 class="translate">Pushbullet adapter settings</h3></td>
+    </tr></table>
+
+    <table style="font-size: 12px" id="pushbullet_table">
+        <tr>
+            <td ><a class="translate" target="_blank" href="https://www.pushbullet.com/account">API-Key:</a></td>
+            <td colspan='5'><input class="value" id="apikey" type="text"/></td>
+        </tr>
+        <tr>
+            <td class="translate">Recipient:</td>
+            <td colspan='5'><input class="value" id="receivermail" type="text"/></td>
+        </tr>
+        <tr>
+                <td colspan="6" style="height:20px"></td>
+        </tr>
+
+    </table>
+    <p>
+    <h1 class="translate">Description</h1>
+    <span class="translate">Description text</span>
+    </p>
+
+    <button id="btnDevices">Geräte laden</button>
+    <br>
+    <table id="devices"></table><div id="pager-devices"></div>
+</div>
+
+</html>

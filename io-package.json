@@ -1,0 +1,23 @@
+{
+    "common": {
+        "name":                     "pushbullet",
+        "version":                  "0.0.3",
+        "title":                    "Pushbullet Adapter",
+        "desc":                     "Pushbullet adapter",
+        "platform":                 "Javascript/Node.js",
+        "mode":                     "daemon",
+        "messagebox":               true,
+        "readme":                   "https://github.com/Jens1809/iobroker.pushbullet/blob/master/README.md",
+        "icon":                     "pushbullet.png",
+        "extIcon":                  "https://raw.githubusercontent.com/Jens1809/iobroker.pushbullet/master/admin/pushbullet.png",
+        "loglevel":                 "info",
+        "type":                     "communication"
+    },
+    "native": {
+        "apikey": "XXXXX",
+        "receivermail": "mail@example.com"
+    },
+    "objects": [
+
+    ]
+}
