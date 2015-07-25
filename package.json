@@ -1,10 +1,9 @@
 {
-  "name": "ioBroker.pushbullet",
-  "version": "0.0.4",
+  "name": "iobroker.pushbullet",
+  "version": "0.0.6",
   "description": "Pushbullet Adapter for ioBroker",
   "author": "Jens1809<cpthans@gmail.com>",
   "homepage": "https://github.com/Jens1809/ioBroker.pushbullet",
-  "readme": "https://github.com/Jens1809/ioBroker.pushbullet/blob/master/README.md",
   "keywords": ["ioBroker", "pushbullet"],
   "repository": {
     "type": "git",
