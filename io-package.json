@@ -1,7 +1,7 @@
 {
     "common": {
         "name":                     "pushbullet",
-        "version":                  "0.0.6",
+        "version":                  "0.0.7",
         "title":                    "Pushbullet Adapter",
         "desc":                     "Pushbullet adapter",
         "platform":                 "Javascript/Node.js",
@@ -14,7 +14,7 @@
     },
     "native": {
         "apikey": "XXXXX",
-        "receivermail": "mail@example.com"
+        "receivermail": ""
     },
     "objects": [
 

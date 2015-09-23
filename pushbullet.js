@@ -48,6 +48,7 @@ adapter.on('message', function (obj) {
 });
 
 function push(msg) {
+	var index;
     adapter.log.info("Pushe Nachricht");
 
     if (typeof msg != "object") {
@@ -56,45 +57,53 @@ function push(msg) {
 
     msg.title = msg.hasOwnProperty("title") ? msg.title : "[ioBroker]";
 
+	if(receiver.search(",")>=0){
+		receiver = receiver.split(",")
+	} else {
+		receiver = [receiver];
+	}
+	
     adapter.log.info(msg.type);
-    switch(msg.type){
-        case "note":
-            pusher.note(receiver, msg.title, msg.message, function(error, response) {
-                if (error) {
-                    adapter.log.info("Pushbullet Fehler: "+error.message);
-                } else {
-                    //adapter.log.info("Pushbullet: "+response.body);
-                }
-            });
-            break;
-        case "file":
-            pusher.file(receiver, msg.file, msg.title, function(error, response) {
-                if (error) {
-                    adapter.log.info("Pushbullet Fehler: "+error.message);
-                } else {
-                    //adapter.log.info("Pushbullet: "+response.body);
-                }
-            });
-            break;
-        case "link":
-            pusher.link(receiver, msg.title, msg.link, function(error, response) {
-                if (error) {
-                    adapter.log.info("Pushbullet Fehler: "+error.message);
-                } else {
-                    //adapter.log.info("Pushbullet: "+response.body);
-                }
-            });
-            break;
-        default:
-            pusher.note(receiver, msg.title, msg.message, function(error, response) {
-                if (error) {
-                    adapter.log.info("Pushbullet Fehler: "+error.message);
-                } else {
-                    //adapter.log.info("Pushbullet: "+response.body);
-                }
-            });
-            break;
-    }
+	for	(index = 0; index < receiver.length; index++) {
+		switch(msg.type){
+			case "note":
+				pusher.note(receiver[index], msg.title, msg.message, function(error, response) {
+					if (error) {
+						adapter.log.info("Pushbullet Fehler: "+error.message);
+					} else {
+						//adapter.log.info("Pushbullet: "+response.body);
+					}
+				});
+				break;
+			case "file":
+				pusher.file(receiver[index], msg.file, msg.title, function(error, response) {
+					if (error) {
+						adapter.log.info("Pushbullet Fehler: "+error.message);
+					} else {
+						//adapter.log.info("Pushbullet: "+response.body);
+					}
+				});
+				break;
+			case "link":
+				pusher.link(receiver[index], msg.title, msg.link, function(error, response) {
+					if (error) {
+						adapter.log.info("Pushbullet Fehler: "+error.message);
+					} else {
+						//adapter.log.info("Pushbullet: "+response.body);
+					}
+				});
+				break;
+			default:
+				pusher.note(receiver[index], msg.title, msg.message, function(error, response) {
+					if (error) {
+						adapter.log.info("Pushbullet Fehler: "+error.message);
+					} else {
+						//adapter.log.info("Pushbullet: "+response.body);
+					}
+				});
+				break;
+		}
+	}
 }
 
 // is called when databases are connected and adapter received configuration.

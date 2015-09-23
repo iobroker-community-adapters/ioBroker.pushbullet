@@ -1,6 +1,6 @@
 {
   "name": "iobroker.pushbullet",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pushbullet Adapter for ioBroker",
   "author": "Jens1809<cpthans@gmail.com>",
   "homepage": "https://github.com/Jens1809/ioBroker.pushbullet",
