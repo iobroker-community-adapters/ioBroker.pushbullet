@@ -5,6 +5,13 @@ ioBroker pushbullet Adapter
 Send pushbullet notifications from ioBroker. 
 This Adapter is mostly based on bluefox's Pushover Adapter for ioBroker.
 
+### 0.0.8 (2015-09-26)
+* (Jens1809) Adapter empfängt nun Push Nachrichten und schreibt die Daten der Nachricht in die Objekte:
+* - pushbullet.0.push.type
+  - pushbullet.0.push.title
+  - pushbullet.0.push.message
+  - pushbullet.0.push.payload
+
 ### 0.0.7 (2015-09-24)
 * (Jens1809) Möglichkeit an ausgewählte Geräte zu senden ohne an den kompletten Account zu senden.
 
