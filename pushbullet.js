@@ -113,10 +113,58 @@ function push(msg) {
 // is called when databases are connected and adapter received configuration.
 // start here!
 adapter.on('ready', function () {
-	adapter.setState('push.type', "", true);
-	adapter.setState('push.title', "", true);
-	adapter.setState('push.message', "", true);
-	adapter.setState('push.payload', "", true);
+	adapter.extendObject('push.type', {
+		type:  'state',
+		common: {
+			name: 'Type of Push',
+			type: 'string',
+			role: 'state',
+			read:   true,
+			write:  true
+		},
+		native: {
+
+		}
+	});
+	adapter.extendObject('push.title', {
+		type:  'state',
+		common: {
+			name: 'Title of Push',
+			type: 'string',
+			role: 'state',
+			read:   true,
+			write:  true
+		},
+		native: {
+
+		}
+	});
+	adapter.extendObject('push.message', {
+		type:  'state',
+		common: {
+			name: 'Message of Push',
+			type: 'string',
+			role: 'state',
+			read:   true,
+			write:  true
+		},
+		native: {
+
+		}
+	});
+	adapter.extendObject('push.payload', {
+		type:  'state',
+		common: {
+			name: 'Content of Push',
+			type: 'string',
+			role: 'state',
+			read:   true,
+			write:  true
+		},
+		native: {
+
+		}
+	});
     main();
 });
 
