@@ -52,7 +52,7 @@ adapter.on('message', function (obj) {
 
 
 function push(msg) {
-	var index;
+	var index, aryReceiver;
     adapter.log.info("Pushe Nachricht");
 
     if (typeof msg != "object") {
@@ -62,16 +62,16 @@ function push(msg) {
     msg.title = msg.hasOwnProperty("title") ? msg.title : "[ioBroker]";
 
 	if(receiver.search(",")>=0){
-		receiver = receiver.split(",")
+		aryReceiver = receiver.split(",")
 	} else {
-		receiver = [receiver];
+		aryReceiver = [receiver];
 	}
 	
     adapter.log.info(msg.type);
-	for	(index = 0; index < receiver.length; index++) {
+	for	(index = 0; index < aryReceiver.length; index++) {
 		switch(msg.type){
 			case "note":
-				pusher.note(receiver[index], msg.title, msg.message, function(error, response) {
+				pusher.note(aryReceiver[index], msg.title, msg.message, function(error, response) {
 					if (error) {
 						adapter.log.info("Pushbullet Fehler: "+error.message);
 					} else {
@@ -80,7 +80,7 @@ function push(msg) {
 				});
 				break;
 			case "file":
-				pusher.file(receiver[index], msg.file, msg.title, function(error, response) {
+				pusher.file(aryReceiver[index], msg.file, msg.title, function(error, response) {
 					if (error) {
 						adapter.log.info("Pushbullet Fehler: "+error.message);
 					} else {
@@ -89,7 +89,7 @@ function push(msg) {
 				});
 				break;
 			case "link":
-				pusher.link(receiver[index], msg.title, msg.link, function(error, response) {
+				pusher.link(aryReceiver[index], msg.title, msg.link, function(error, response) {
 					if (error) {
 						adapter.log.info("Pushbullet Fehler: "+error.message);
 					} else {
@@ -98,7 +98,7 @@ function push(msg) {
 				});
 				break;
 			default:
-				pusher.note(receiver[index], msg.title, msg.message, function(error, response) {
+				pusher.note(aryReceiver[index], msg.title, msg.message, function(error, response) {
 					if (error) {
 						adapter.log.info("Pushbullet Fehler: "+error.message);
 					} else {
