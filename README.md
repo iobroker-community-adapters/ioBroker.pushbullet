@@ -5,6 +5,15 @@ ioBroker pushbullet Adapter
 Send pushbullet notifications from ioBroker. 
 This Adapter is mostly based on bluefox's Pushover Adapter for ioBroker.
 
+### 0.0.11 (2015-10-11)
+* (Jens1809) Man kann nun Pushnachrichten an bestimmte Geräte schicken indem man die GeräteID mit angibt.
+* sendTo("pushbullet", {
+    message: "message body",    //The Message you want to send
+    title: "title",             //The Title of your message
+    type: "note",                //Type Note
+	receiver: "ID hier einsetzen" //GeräteID
+});
+
 ### 0.0.8 (2015-09-26)
 * (Jens1809) Adapter empfängt nun Push Nachrichten und schreibt die Daten der Nachricht in die Objekte:
 * - pushbullet.0.push.type

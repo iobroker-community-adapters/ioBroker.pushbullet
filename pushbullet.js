@@ -61,12 +61,20 @@ function push(msg) {
 
     msg.title = msg.hasOwnProperty("title") ? msg.title : "[ioBroker]";
 
-	if(receiver.search(",")>=0){
-		aryReceiver = receiver.split(",")
+	if (typeof msg.receiver === 'undefined' || msg.receiver === null) {
+		if(receiver.search(",")>=0){
+			aryReceiver = receiver.split(",")
+		} else {
+			aryReceiver = [receiver];
+		}
 	} else {
-		aryReceiver = [receiver];
+		if(msg.receiver.search(",")>=0){
+			aryReceiver = msg.receiver.split(",")
+		} else {
+			aryReceiver = [msg.receiver];
+		}	
 	}
-	
+		
     adapter.log.info(msg.type);
 	for	(index = 0; index < aryReceiver.length; index++) {
 		switch(msg.type){
