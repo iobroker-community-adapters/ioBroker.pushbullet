@@ -2,6 +2,9 @@
     "common": {
         "name":                     "pushbullet",
         "version":                  "0.0.11",
+        "authors": [
+            "Jens1809 <cpthans@gmail.com>"
+        ],
         "title":                    "Pushbullet Adapter",
         "desc":                     "Pushbullet adapter",
         "platform":                 "Javascript/Node.js",
