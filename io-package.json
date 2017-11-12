@@ -13,7 +13,7 @@
         "icon":                     "pushbullet.png",
         "extIcon":                  "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
         "loglevel":                 "info",
-        "type":                     "communication"
+        "type":                     "messaging"
     },
     "native": {
         "apikey": "XXXXX",
