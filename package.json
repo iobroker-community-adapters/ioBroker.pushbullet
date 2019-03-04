@@ -13,7 +13,8 @@
     "url": "https://github.com/Jens1809/ioBroker.pushbullet"
   },
   "dependencies": {
-    "pushbullet": "~1.4.3"
+    "pushbullet": "~1.4.3",
+    "@iobroker/adapter-core": "^1.0.3"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
@@ -26,8 +27,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-exec": "^3.0.0",
     "mocha": "^6.0.2",
-    "chai": "^4.2.0",
-    "@iobroker/adapter-core": "^1.0.3"
+    "chai": "^4.2.0"
   },
   "bugs": {
     "url": "https://github.com/Jens1809/ioBroker.pushbullet/issues"
