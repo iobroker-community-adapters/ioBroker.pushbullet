@@ -11,6 +11,7 @@
         "mode":                     "daemon",
         "messagebox":               true,
         "icon":                     "pushbullet.png",
+    "readme": "https://github.com/Jens1809/ioBroker.pushbullet/blob/master/README.md",
         "extIcon":                  "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
         "loglevel":                 "info",
         "type":                     "messaging"

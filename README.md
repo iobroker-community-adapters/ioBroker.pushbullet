@@ -1,6 +1,7 @@
 ![Logo](admin/pushbullet.png)
-ioBroker pushbullet Adapter
-==============
+# ioBroker pushbullet Adapter
+
+![Number of Installations](http://iobroker.live/badges/pushbullet-installed.svg) ![Number of Installations](http://iobroker.live/badges/pushbullet-stable.svg)
 
 Send pushbullet notifications from ioBroker. 
 This Adapter is mostly based on bluefox's Pushover Adapter for ioBroker.
