@@ -22,7 +22,7 @@
     "url": "https://github.com/Jens1809/ioBroker.pushbullet"
   },
   "dependencies": {
-    "pushbullet": "~1.4.3",
+    "pushbullet": "~2.4.0",
     "@iobroker/adapter-core": "^2.5.1"
   },
   "devDependencies": {
