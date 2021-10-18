@@ -1,6 +1,6 @@
 {
   "name": "iobroker.pushbullet",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "description": "Pushbullet Adapter for ioBroker",
   "author": "Jens1809<cpthans@gmail.com>",
   "homepage": "https://github.com/Jens1809/ioBroker.pushbullet",
@@ -8,33 +8,37 @@
     "ioBroker",
     "pushbullet"
   ],
+  "files": [
+    "admin/index.html",
+    "admin/pushbullet.png",
+    "io-package.json",
+    "package.json",
+    "README.md",
+    "main.js",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Jens1809/ioBroker.pushbullet"
   },
   "dependencies": {
     "pushbullet": "~1.4.3",
-    "@iobroker/adapter-core": "^1.0.3"
+    "@iobroker/adapter-core": "^2.5.1"
   },
   "devDependencies": {
-    "grunt": "^1.0.1",
-    "grunt-replace": "^1.0.1",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-jscs": "^3.0.1",
-    "grunt-http": "^2.2.0",
-    "grunt-contrib-clean": "^1.1.0",
-    "grunt-contrib-compress": "^1.4.3",
-    "grunt-contrib-copy": "^1.0.0",
-    "grunt-exec": "^3.0.0",
-    "mocha": "^6.0.2",
-    "chai": "^4.2.0"
+    "@alcalzone/release-script": "^3.4.0",
+    "@alcalzone/release-script-plugin-iobroker": "^3.3.0",
+    "mocha": "^9.1.3",
+    "chai": "^4.3.4"
   },
   "bugs": {
     "url": "https://github.com/Jens1809/ioBroker.pushbullet/issues"
   },
-  "main": "pushbullet.js",
+  "main": "main.js",
   "license": "MIT",
   "scripts": {
-    "test": "node node_modules/mocha/bin/mocha --exit"
+    "test": "node node_modules/mocha/bin/mocha --exit",
+    "release": "release-script patch --yes",
+    "release-minor": "release-script minor --yes"
   }
 }

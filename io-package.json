@@ -1,25 +1,58 @@
 {
-    "common": {
-        "name":                     "pushbullet",
-        "version":                  "0.0.11",
-        "authors": [
-            "Jens1809 <cpthans@gmail.com>"
-        ],
-        "title":                    "Pushbullet Adapter",
-        "desc":                     "Pushbullet adapter",
-        "platform":                 "Javascript/Node.js",
-        "mode":                     "daemon",
-        "messagebox":               true,
-        "icon":                     "pushbullet.png",
-        "extIcon":                  "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
-        "loglevel":                 "info",
-        "type":                     "messaging"
+  "common": {
+    "name": "pushbullet",
+    "version": "0.1.0",
+    "news": {
+      "0.1.0": {
+        "en": "Refactoring",
+        "de": "Refactoring",
+        "ru": "Рефакторинг",
+        "pt": "Reestruturação",
+        "nl": "Refactoring",
+        "fr": "Refactorisation",
+        "it": "Refactoring",
+        "es": "Refactorización",
+        "pl": "Refaktoryzacja",
+        "zh-cn": "重构"
+      }
     },
-    "native": {
-        "apikey": "XXXXX",
-        "receivermail": ""
+    "authors": [
+      "Jens1809 <cpthans@gmail.com>"
+    ],
+    "title": "Pushbullet",
+    "titleLang": {
+      "en": "Pushbullet"
     },
-    "objects": [
-
-    ]
+    "desc": {
+      "en": "Send messages via Pushbullet service",
+      "de": "Senden Sie Nachrichten über den Pushbullet-Dienst",
+      "ru": "Отправлять сообщения через сервис Pushbullet",
+      "pt": "Enviar mensagens via serviço Pushbullet",
+      "nl": "Berichten verzenden via Pushbullet-service",
+      "fr": "Envoyer des messages via le service Pushbullet",
+      "it": "Invia messaggi tramite il servizio Pushbullet",
+      "es": "Envía mensajes a través del servicio Pushbullet",
+      "pl": "Wysyłaj wiadomości za pośrednictwem usługi Pushbullet",
+      "zh-cn": "通过 Pushbullet 服务发送消息"
+    },
+    "platform": "Javascript/Node.js",
+    "mode": "daemon",
+    "messagebox": true,
+    "compact": true,
+    "icon": "pushbullet.png",
+    "readme": "https://github.com/Jens1809/ioBroker.pushbullet/blob/master/README.md",
+    "extIcon": "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
+    "loglevel": "info",
+    "type": "messaging",
+    "connectionType": "cloud",
+    "dataSource": "poll"
+  },
+  "protectedNative": [
+    "apikey"
+  ],
+  "native": {
+    "apikey": "XXXXX",
+    "receivermail": ""
+  },
+  "objects": []
 }

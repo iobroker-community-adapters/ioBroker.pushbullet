@@ -62,7 +62,7 @@ th#dvh, td#dvr {
 
     function setValue(id, value) {
         // example: select elements with id=key and class=value and insert value
-        if ($('#' + id + '.value').attr('type') == 'checkbox') {
+        if ($('#' + id + '.value').attr('type') === 'checkbox') {
             $('#' + id + '.value').prop('checked', value).change(function() {
                 onChange();
             });
@@ -79,14 +79,14 @@ th#dvh, td#dvr {
 		console.log(settings);
         for (var key in settings) {
             // example: select elements with id=key and class=value and insert value
-            if ($('#' + key + '.value').attr('type') == 'checkbox') {
-				console.log("Checkbox Setting");
+            if ($('#' + key + '.value').attr('type') === 'checkbox') {
+				console.log('Checkbox Setting');
 				console.log(settings[key]);
                 $('#' + key + '.value').prop('checked', settings[key]).change(function() {
                     onChange();
                 });
             } else {
-				console.log("Keine Checkbox: "+key);
+				console.log('Keine Checkbox: '+key);
                 $('#' + key + '.value').val(settings[key]).change(function() {
                     onChange();
                 }).keyup(function() {
@@ -97,50 +97,52 @@ th#dvh, td#dvr {
         $('#btnDevices').button().click(loadDevices);
         onChange(false);
     }
-	
+
 	function add(aID) {
 		var receiver = $('#receivermail').val();
-		if(receiver.search(aID)==-1){
-			if(receiver==""){
+		if (receiver.search(aID) === -1){
+			if (!receiver){
 				$('#receivermail').val(aID);
 			} else {
-				$('#receivermail').val(receiver+","+aID);
+				$('#receivermail').val(receiver + ',' + aID);
 			}
 		} else {
-			receiver = receiver.replace(aID, "");
-			receiver = receiver.replace(",,", ",");
-			if(receiver.substr(0, 1)==",")
-				receiver = receiver.substr(1, receiver.length-1);
-			if(receiver.substr(receiver.length-1, 1)==",")
-				receiver = receiver.substr(0, receiver.length-1);
+			receiver = receiver.replace(aID, '');
+			receiver = receiver.replace(',,', ',');
+			if (receiver.substr(0, 1) === ',') {
+                receiver = receiver.substr(1, receiver.length - 1);
+            }
+
+			if (receiver.substr(receiver.length - 1, 1) === ',') {
+                receiver = receiver.substr(0, receiver.length - 1);
+            }
+
 			$('#receivermail').val(receiver);
 		}
-		
-		if(document.getElementById("button_"+aID).innerText=="+"){
-			document.getElementById("button_"+aID).innerText="-";
-			document.getElementById(aID).style.backgroundColor = "#00FF00";
+
+		if(document.getElementById('button_' + aID).innerText === '+'){
+			document.getElementById("button_" + aID).innerText = '-';
+			document.getElementById(aID).style.backgroundColor = '#00FF00';
 		} else {
-			document.getElementById("button_"+aID).innerText="+";
-			document.getElementById(aID).style.backgroundColor = "#FFFFFF";
+			document.getElementById("button_" + aID).innerText = '+';
+			document.getElementById(aID).style.backgroundColor = '#FFFFFF';
 		}
-		$("#receivermail").trigger("change");
+		$('#receivermail').trigger("change");
 	}
 
     function loadDevices() {
-		
         //editTable('devices', ['name', 'type', 'id', 'selected'], [], 460);
-        var newValue = JSON.stringify(getSettings());
         if (changed) {
-            showMessage("Bitte die neuen Einstellungen speichern.");
+            showMessage('Please save first the changed settings');
             return;
         }
 		var receiver = $('#receivermail').val();
         $.ajax({
-            url: "https://api.pushbullet.com/v2/devices",
-            headers: {"Authorization": "Bearer " + $('#apikey').val()},
+            url: 'https://api.pushbullet.com/v2/devices',
+            headers: {Authorization: 'Bearer ' + $('#apikey').val()},
             type: 'GET',
             success: function (data) {
-                for (i = 0; i < data.devices.length; i++) {
+                for (var i = 0; i < data.devices.length; i++) {
                     console.log(data.devices[i].nickname);
 					var table = document.getElementById("devices");
 					var row = table.insertRow(i+1);
@@ -149,19 +151,19 @@ th#dvh, td#dvr {
 					var cell2 = row.insertCell(1);
 					var cell3 = row.insertCell(2);
 					var cell4 = row.insertCell(3);
-					cell1.innerHTML = '<button id="button_'+data.devices[i].iden+'" onclick="add(\''+data.devices[i].iden+'\')" type="button">+</button>';
+					cell1.innerHTML = '<button id="button_' + data.devices[i].iden + '" onclick="add(\'' + data.devices[i].iden + '\')" type="button">+</button>';
 					cell2.innerHTML = data.devices[i].nickname;
 					cell3.innerHTML = data.devices[i].type;
 					cell4.innerHTML = data.devices[i].iden;
-					if(receiver.search(data.devices[i].iden)>=0){
-						row.style.backgroundColor = "#00FF00";
-						document.getElementById("button_"+data.devices[i].iden).innerText="-";
+					if(receiver.indexOf(data.devices[i].iden) !== -1){
+						row.style.backgroundColor = '#00FF00';
+						document.getElementById('button_'+data.devices[i].iden).innerText = '-';
 					}
                 }
-                $('#btnDevices').button("disable");
+                $('#btnDevices').button('disable');
             },
             error: function(){
-                alert("Cannot get data");
+                alert('Cannot get data');
             }
         });
     }
@@ -176,12 +178,16 @@ th#dvh, td#dvr {
             if (!obj[ids[0]]) obj[ids[0]] = {};
             obj[ids[0]][ids[1]] = value;
         } else if (ids.length === 3) {
-            if (ids[2] == "pass") {
-                value = encrypt("Zgfr56gFe87jJOM", value);
+            if (ids[2] === 'pass') {
+                value = encrypt('Zgfr56gFe87jJOM', value);
             }
 
-            if (!obj[ids[0]]) obj[ids[0]] = {};
-            if (!obj[ids[0]][ids[1]]) obj[ids[0]][ids[1]] = {};
+            if (!obj[ids[0]]) {
+                obj[ids[0]] = {};
+            }
+            if (!obj[ids[0]][ids[1]]) {
+                obj[ids[0]][ids[1]] = {};
+            }
             obj[ids[0]][ids[1]][ids[2]] = value;
         }
         return obj;
@@ -193,7 +199,7 @@ th#dvh, td#dvr {
             var $this = $(this);
             var id = $this.attr('id');
 
-            if ($this.attr('type') == 'checkbox') {
+            if ($this.attr('type') === 'checkbox') {
                 obj = saveHelper(obj, id, $this.prop('checked'))
             } else {
                 obj = saveHelper(obj, id, $this.val())
@@ -239,7 +245,7 @@ th#dvh, td#dvr {
 	  <tr id="dvr">
 		<th id="dvh"></th>
 		<th id="dvh">Name</th>
-		<th id="dvh">Type</th>		
+		<th id="dvh">Type</th>
 		<th id="dvh">ID</th>
 	  </tr>
 	</table>
