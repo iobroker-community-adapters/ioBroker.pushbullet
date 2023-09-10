@@ -4,7 +4,6 @@
 ![Number of Installations](http://iobroker.live/badges/pushbullet-installed.svg) ![Number of Installations](http://iobroker.live/badges/pushbullet-stable.svg)
 
 Send pushbullet notifications from ioBroker. 
-This Adapter is mostly based on bluefox's Pushover Adapter for ioBroker.
 
 ## Usage
 
@@ -46,6 +45,7 @@ sendTo("pushbullet", {
 ### 1.0.0 (2023-09-10)
 * (bluefox) Breaking change: Only node version 16+ supported
 * (bluefox) Added JSON config and used the latest version of a pushbullet library
+* (bluefox) Added encryption
 
 ### 0.1.0 (2021-10-15)
 * (bluefox) Refactoring

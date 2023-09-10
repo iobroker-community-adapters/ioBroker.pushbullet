@@ -5,5 +5,6 @@
   "Encryption password": "Mot de passe de cryptage",
   "optional": "facultatif",
   "Pushbullet adapter allows to push notes to devices via Pushbullet.": "L'adaptateur Pushbullet permet de transmettre des notes aux appareils via Pushbullet.",
-  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Pour trouver l'ID de votre appareil, appuyez sur le bouton Obtenir des appareils et copiez et collez l'ID dans le champ du destinataire."
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Pour trouver l'ID de votre appareil, appuyez sur le bouton Obtenir des appareils et copiez et collez l'ID dans le champ du destinataire.",
+  "Do not delete messages after receiving": "Ne supprimez pas les messages après avoir reçu"
 }

@@ -5,5 +5,6 @@
   "Encryption password": "Пароль шифрования",
   "optional": "необязательный",
   "Pushbullet adapter allows to push notes to devices via Pushbullet.": "Адаптер Pushbullet позволяет отправлять заметки на устройства через Pushbullet.",
-  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Чтобы найти идентификатор вашего устройства, нажмите кнопку «Получить устройства», скопируйте и вставьте идентификатор в поле получателя."
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Чтобы найти идентификатор вашего устройства, нажмите кнопку «Получить устройства», скопируйте и вставьте идентификатор в поле получателя.",
+  "Do not delete messages after receiving": "Не удалять сообщения после получения"
 }

@@ -5,5 +5,6 @@
   "Encryption password": "Versleutelingswachtwoord",
   "optional": "optioneel",
   "Pushbullet adapter allows to push notes to devices via Pushbullet.": "Met de Pushbullet-adapter kunt u notities via Pushbullet naar apparaten verzenden.",
-  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Om de ID van uw apparaat te vinden, drukt u op de knop Apparaten ophalen en kopieert en plakt u de ID in het ontvangerveld."
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Om de ID van uw apparaat te vinden, drukt u op de knop Apparaten ophalen en kopieert en plakt u de ID in het ontvangerveld.",
+  "Do not delete messages after receiving": "Verwijder geen berichten na ontvangst"
 }

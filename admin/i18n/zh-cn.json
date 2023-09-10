@@ -5,5 +5,6 @@
   "Encryption password": "加密密码",
   "optional": "选修的",
   "Pushbullet adapter allows to push notes to devices via Pushbullet.": "Pushbullet 适配器允许通过 Pushbullet 将笔记推送到设备。",
-  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "要查找设备的 ID，请按获取设备按钮，然后将 ID 复制并粘贴到收件人字段。"
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "要查找设备的 ID，请按获取设备按钮，然后将 ID 复制并粘贴到收件人字段。",
+  "Do not delete messages after receiving": "收到消息后请勿删除"
 }

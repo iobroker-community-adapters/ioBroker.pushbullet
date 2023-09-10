@@ -1,14 +1,8 @@
-'use strict';
-
-// you have to require the utils module and call adapter function
-const utils        = require('@iobroker/adapter-core'); // Get common adapter utils
-// const PushBullet         = require('pushbullet');
+const utils = require('@iobroker/adapter-core'); // Get common adapter utils
 let PushBullet;
-const adapterName  = require('./package.json').name.split('.').pop();
+const adapterName = require('./package.json').name.split('.').pop();
 import('pushbullet')
-    .then(result => {
-        PushBullet = result.default
-    });
+    .then(result => PushBullet = result.default);
 
 // you have to call the adapter function and pass an option object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
@@ -30,53 +24,7 @@ function startAdapter(options) {
 
     // is called when databases are connected and adapter received configuration.
     // start here!
-    adapter.on('ready', async () => {
-        await adapter.extendObjectAsync('push.type', {
-            type: 'state',
-            common: {
-                name: 'Type of Push',
-                type: 'string',
-                role: 'state',
-                read: true,
-                write: true
-            },
-            native: {}
-        });
-        await adapter.extendObjectAsync('push.title', {
-            type: 'state',
-            common: {
-                name: 'Title of Push',
-                type: 'string',
-                role: 'state',
-                read: true,
-                write: true
-            },
-            native: {}
-        });
-        await adapter.extendObjectAsync('push.message', {
-            type: 'state',
-            common: {
-                name: 'Message of Push',
-                type: 'string',
-                role: 'state',
-                read: true,
-                write: true
-            },
-            native: {}
-        });
-        await adapter.extendObjectAsync('push.payload', {
-            type: 'state',
-            common: {
-                name: 'Content of Push',
-                type: 'string',
-                role: 'state',
-                read: true,
-                write: true
-            },
-            native: {}
-        });
-        await main();
-    });
+    adapter.on('ready', () => main());
 
     // is called when adapter shuts down - callback has to be called under any circumstances!
     adapter.on('unload', callback => {
@@ -157,7 +105,102 @@ async function push(msg) {
     }
 }
 
-async function main() {
+async function handleTickle(tickleMsg) {
+    if (pusher && tickleMsg.subtype === 'push') {
+        adapter.log.debug(`Pushbullet DEBUG - handleTickle : ${tickleMsg.subtype}`);
+        try {
+            const response = await pusher.history({ modified_after: tsHistory });
+            const history = await response.json();
+
+            for (let i = 0; i < history.pushes.length; i++) {
+                await pushMsg(history.pushes[i]);
+            }
+            tsHistory = history.pushes.length ? history.pushes[0].modified : 0;
+        } catch (err) {
+            adapter.log.info('Unable to get history.');
+            tsHistory = 0;
+        }
+    }
+}
+
+async function pushMsg(incoming) {
+    if (incoming.target_device_iden && incoming.target_device_iden !== myIden) {
+        adapter.log.debug(`Receiver: ${incoming.target_device_iden}`);
+        adapter.log.debug(`My ID: ${myIden}`);
+        return;
+    }
+
+    const msg = {
+        pushtype: incoming.type,
+        data: incoming,
+    };
+
+    adapter.log.debug(`pushMsg: ${incoming.type}`);
+
+    if (incoming.dismissed === true) {
+        msg.pushtype = 'dismissal';
+        msg.topic = 'Push dismissed';
+        msg.payload = incoming.iden;
+    } else if (incoming.active === false && incoming.type === undefined) {
+        msg.pushtype = 'delete';
+        msg.topic = 'Push deleted';
+        msg.payload = incoming.iden;
+    } else if (incoming.type === 'clip') {
+        msg.topic = 'Clipboard content';
+        msg.payload = incoming.body;
+    } else if (incoming.type === 'note') {
+        msg.topic = incoming.title;
+        msg.payload = incoming.body;
+    } else if (incoming.type === 'link') {
+        msg.topic = incoming.title;
+        msg.payload = incoming.url;
+        msg.message = incoming.body;
+    } else if (incoming.type === 'address') {
+        msg.topic = incoming.name;
+        msg.payload = incoming.address;
+    } else if (incoming.type === 'list') {
+        msg.topic = incoming.title;
+        msg.payload = incoming.items;
+    } else if (incoming.type === 'file') {
+        msg.topic = incoming.file_name;
+        msg.payload = incoming.file_url;
+        msg.message = incoming.body;
+    } else if (incoming.type === 'mirror') {
+        // Android specific, untested
+        msg.topic = incoming.title;
+        msg.payload = incoming.body;
+    } else if (incoming.type === 'dismissal') {
+        msg.topic = 'dismissal';
+        msg.topic = 'Push dismissed';
+        msg.payload = incoming.iden;
+    } else {
+        //adapter.log.error('unknown push type: ' + incoming.type + ' content: ' + JSON.stringify(incoming));
+    }
+    adapter.log.silly('Pushbullet DEBUG - ' + JSON.stringify(msg));
+
+    if (msg.pushtype !== 'dismissal' && msg.pushtype !== 'delete') {
+        adapter.log.silly('Pushbullet DEBUG Payload: ' + msg.payload);
+        await adapter.setStateAsync('push.type', incoming.type, true);
+        await adapter.setStateAsync('push.title', typeof msg.topic === 'object' ? JSON.stringify(msg.topic) : (msg.topic === undefined || msg.topic === null ? null : msg.topic.toString()), true);
+        await adapter.setStateAsync('push.message', typeof msg.message === 'object' ? JSON.stringify(msg.message) : (msg.message === undefined || msg.message === null ? null : msg.message.toString()), true);
+        await adapter.setStateAsync('push.payload', typeof msg.payload === 'object' ? JSON.stringify(msg.payload) : (msg.payload === undefined || msg.payload === null ? null : msg.payload.toString()), true);
+        await adapter.setStateAsync('push.forAll', !incoming.target_device_iden, true);
+
+        if (incoming.target_device_iden && !adapter.config.doNotDelete) {
+            await pusher.deletePush(incoming.iden);
+        }
+    }
+}
+
+async function main(retry) {
+    if (!retry && !PushBullet) {
+        setTimeout(() => main(true), 1000);
+        return;
+    }
+    if (!PushBullet) {
+        adapter.log.error('Pushbullet package not available!');
+        return;
+    }
     receiver = adapter.config.receivermail;
     pusher = new PushBullet(adapter.config.apikey);
     try {
@@ -198,13 +241,13 @@ async function main() {
         // stream error
         adapter.log.warn(`ERROR: ${error.message}`));
 
-    stream.on('message', message => {
+    stream.on('message', async message => {
         // message received
         adapter.log.debug(`Message received - ${message.type}`);
         if (message.type === 'tickle') {
-            handleTickle(message);
+            await handleTickle(message);
         } else if (message.type === 'push') {
-            pushMsg(message.push);
+            await pushMsg(message.push);
         } else if (message.type === 'nop') {
             adapter.log.debug('Pushbullet DEBUG - keepalive');
         }
@@ -223,89 +266,6 @@ async function main() {
             tsHistory = 0;
         }
     });
-}
-
-async function handleTickle(tickleMsg) {
-    if (pusher && tickleMsg.subtype === 'push') {
-        adapter.log.debug(`Pushbullet DEBUG - handleTickle : ${tickleMsg.subtype}`);
-        try {
-            const response = await pusher.history({ modified_after: tsHistory });
-            const history = await response.json();
-
-            for (let i = 0; i < history.pushes.length; i++) {
-                pushMsg(history.pushes[i]);
-            }
-            tsHistory = history.pushes.length ? history.pushes[0].modified : 0;
-        } catch (err) {
-            adapter.log.info('Unable to get history.');
-            tsHistory = 0;
-        }
-    }
-}
-
-function pushMsg(incoming) {
-    if (incoming.target_device_iden !== myIden) {
-        adapter.log.debug(`Receiver: ${incoming.target_device_iden}`);
-        adapter.log.debug(`My ID: ${myIden}`);
-        return;
-    }
-
-    const msg = {
-        pushtype: incoming.type,
-        data: incoming
-    };
-
-    adapter.log.debug(`pushMsg: ${incoming.type}`);
-
-    if (incoming.dismissed === true) {
-        msg.pushtype = 'dismissal';
-        msg.topic = 'Push dismissed';
-        msg.payload = incoming.iden;
-    } else if (incoming.active === false && incoming.type === undefined) {
-        msg.pushtype = 'delete';
-        msg.topic = 'Push deleted';
-        msg.payload = incoming.iden;
-    } else if (incoming.type === 'clip') {
-        msg.topic = 'Clipboard content';
-        msg.payload = incoming.body;
-    } else if (incoming.type === 'note') {
-        msg.topic = incoming.title;
-        msg.payload = incoming.body;
-    } else if (incoming.type === 'link') {
-        msg.topic = incoming.title;
-        msg.payload = incoming.url;
-        msg.message = incoming.body;
-    } else if (incoming.type === 'address') {
-        msg.topic = incoming.name;
-        msg.payload = incoming.address;
-    } else if (incoming.type === 'list') {
-        msg.topic = incoming.title;
-        msg.payload = incoming.items;
-    } else if (incoming.type === 'file') {
-        msg.topic = incoming.file_name;
-        msg.payload = incoming.file_url;
-        msg.message = incoming.body;
-    }
-    // Android specific, untested
-    else if (incoming.type === 'mirror') {
-        msg.topic = incoming.title;
-        msg.payload = incoming.body;
-    } else if (incoming.type === 'dismissal') {
-        msg.topic = 'dismissal';
-        msg.topic = 'Push dismissed';
-        msg.payload = incoming.iden;
-    } else {
-        //adapter.log.error('unknown push type: ' + incoming.type + ' content: ' + JSON.stringify(incoming));
-    }
-
-    if (msg.pushtype !== 'dismissal' && msg.pushtype !== 'delete') {
-        adapter.setState('push.type', incoming.type, true);
-        adapter.setState('push.title', msg.topic, true);
-        adapter.setState('push.message', msg.message, true);
-        adapter.setState('push.payload', msg.payload, true);
-
-        pusher.deletePush(incoming.iden, (error, response) => {});
-    }
 }
 
 // If started as allInOne mode => return function to create instance
