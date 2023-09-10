@@ -1,0 +1,9 @@
+{
+  "API-Key": "API-Key",
+  "Manage API-Keys": "Manage API-Keys",
+  "Receiver mail or device ID": "Receiver mail or device ID",
+  "Encryption password": "Encryption password",
+  "optional": "optional",
+  "Pushbullet adapter allows to push notes to devices via Pushbullet.": "Pushbullet adapter allows to push notes to devices via Pushbullet.",
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field."
+}

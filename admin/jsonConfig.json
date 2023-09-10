@@ -1,0 +1,64 @@
+{
+  "i18n": true,
+  "type": "panel",
+  "items": {
+    "_desc": {
+      "type": "staticText",
+      "text": "Pushbullet adapter allows to push notes to devices via Pushbullet.",
+      "sm": 12
+    },
+    "apikey": {
+      "newLine": true,
+      "type": "text",
+      "sm": 12,
+      "md": 3,
+      "lg": 3,
+      "label": "API-Key"
+    },
+    "_link": {
+      "sm": 12,
+      "md": 3,
+      "lg": 3,
+      "icon": "auth",
+      "type": "staticLink",
+      "label": "Manage API-Keys",
+      "text": "Manage API-Keys",
+      "button": true,
+      "href": "https://www.pushbullet.com/account",
+      "variant": "contained"
+    },
+    "receivermail": {
+      "newLine": true,
+      "type": "text",
+      "label": "Receiver mail or device ID",
+      "sm": 12,
+      "md": 3,
+      "lg": 3
+    },
+    "password": {
+      "newLine": true,
+      "type": "password",
+      "repeat": true,
+      "label": "Encryption password",
+      "help": "optional",
+      "sm": 12,
+      "md": 6,
+      "lg": 3
+    },
+    "_desc1": {
+      "type": "staticText",
+      "text": "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.",
+      "sm": 12
+    },
+    "_custom": {
+      "newLine": true,
+      "type": "custom",
+      "sm": 12,
+      "md": 6,
+      "lg": 6,
+      "i18n": true,
+      "url": "custom/customComponents.js",
+      "name": "ConfigCustomPushbulletSet/Components/PushbulletComponent"
+    }
+  }
+}

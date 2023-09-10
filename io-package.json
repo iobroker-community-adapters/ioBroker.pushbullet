@@ -44,15 +44,23 @@
     "extIcon": "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
     "loglevel": "info",
     "type": "messaging",
+    "adminUI": {
+      "config": "json"
+    },
     "connectionType": "cloud",
     "dataSource": "poll"
   },
+  "encryptedNative": [
+    "password"
+  ],
   "protectedNative": [
-    "apikey"
+    "apikey",
+    "password"
   ],
   "native": {
     "apikey": "XXXXX",
-    "receivermail": ""
+    "receivermail": "",
+    "password": ""
   },
   "objects": []
 }

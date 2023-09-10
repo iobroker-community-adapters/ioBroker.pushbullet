@@ -1,0 +1,9 @@
+{
+  "API-Key": "Clave API",
+  "Manage API-Keys": "Administrar claves API",
+  "Receiver mail or device ID": "Correo del receptor o ID del dispositivo",
+  "Encryption password": "Contraseña de cifrado",
+  "optional": "opcional",
+  "Pushbullet adapter allows to push notes to devices via Pushbullet.": "El adaptador Pushbullet permite enviar notas a dispositivos a través de Pushbullet.",
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Para encontrar la ID de su dispositivo, presione el botón Obtener dispositivos y copie y pegue la ID en el campo del destinatario."
+}

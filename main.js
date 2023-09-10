@@ -2,10 +2,15 @@
 
 // you have to require the utils module and call adapter function
 const utils        = require('@iobroker/adapter-core'); // Get common adapter utils
-const Main         = require('pushbullet');
+// const PushBullet         = require('pushbullet');
+let PushBullet;
 const adapterName  = require('./package.json').name.split('.').pop();
+import('pushbullet')
+    .then(result => {
+        PushBullet = result.default
+    });
 
-// you have to call the adapter function and pass a options object
+// you have to call the adapter function and pass an option object
 // name has to be set and has to be equal to adapters folder name and main file name excluding extension
 // adapter will be restarted automatically every time as the configuration changed, e.g system.adapter.example.0
 
@@ -25,8 +30,8 @@ function startAdapter(options) {
 
     // is called when databases are connected and adapter received configuration.
     // start here!
-    adapter.on('ready', () => {
-        adapter.extendObject('push.type', {
+    adapter.on('ready', async () => {
+        await adapter.extendObjectAsync('push.type', {
             type: 'state',
             common: {
                 name: 'Type of Push',
@@ -37,7 +42,7 @@ function startAdapter(options) {
             },
             native: {}
         });
-        adapter.extendObject('push.title', {
+        await adapter.extendObjectAsync('push.title', {
             type: 'state',
             common: {
                 name: 'Title of Push',
@@ -48,7 +53,7 @@ function startAdapter(options) {
             },
             native: {}
         });
-        adapter.extendObject('push.message', {
+        await adapter.extendObjectAsync('push.message', {
             type: 'state',
             common: {
                 name: 'Message of Push',
@@ -59,7 +64,7 @@ function startAdapter(options) {
             },
             native: {}
         });
-        adapter.extendObject('push.payload', {
+        await adapter.extendObjectAsync('push.payload', {
             type: 'state',
             common: {
                 name: 'Content of Push',
@@ -70,13 +75,13 @@ function startAdapter(options) {
             },
             native: {}
         });
-        main();
+        await main();
     });
 
     // is called when adapter shuts down - callback has to be called under any circumstances!
     adapter.on('unload', callback => {
         try {
-            stream.close();
+            stream && stream.close();
             adapter.log.info('cleaned everything up...');
             callback();
         } catch (e) {
@@ -84,25 +89,14 @@ function startAdapter(options) {
         }
     });
 
-    // is called if a subscribed state changes
-    adapter.on('stateChange', (id, state) => {
-        // Warning, state can be null if it was deleted
-        adapter.log.debug(`stateChange ${id} ${JSON.stringify(state)}`);
-
-        // you can use the ack flag to detect if it is status (true) or command (false)
-        if (state && !state.ack) {
-            adapter.log.info('ack is not set!');
-        }
-    });
-
     // Some message was sent to adapter instance over message box. Used by email, pushover, text2speech, ...
-    adapter.on('message', obj => {
+    adapter.on('message', async obj => {
         adapter.log.debug('Message received');
-        push(obj.message);
+        await push(obj.message);
     });
 }
 
-function push(msg) {
+async function push(msg) {
     let index;
     let aryReceiver;
 
@@ -132,63 +126,70 @@ function push(msg) {
     for (index = 0; index < aryReceiver.length; index++) {
         switch (msg.type) {
             case 'note':
-                pusher.note(aryReceiver[index], msg.title, msg.message, (error, response) => {
-                    if (error) {
-                        adapter.log.warn('Pushbullet error: ' + error.message);
-                    } else {
-                        //adapter.log.info('Pushbullet: '+response.body);
-                    }
-                });
+                try {
+                    await pusher.note(aryReceiver[index], msg.title, msg.message);
+                } catch (error) {
+                    adapter.log.warn(`Pushbullet error: ${error.message}`);
+                }
                 break;
             case 'file':
-                pusher.file(aryReceiver[index], msg.file, msg.title, (error, response) => {
-                    if (error) {
-                        adapter.log.warn('Pushbullet error: ' + error.message);
-                    } else {
-                        //adapter.log.info('Pushbullet: '+response.body);
-                    }
-                });
+                try {
+                    await pusher.file(aryReceiver[index], msg.file, msg.title);
+                } catch (error) {
+                    adapter.log.warn(`Pushbullet error: ${error.message}`);
+                }
                 break;
             case 'link':
-                pusher.link(aryReceiver[index], msg.title, msg.link, (error, response) => {
-                    if (error) {
-                        adapter.log.warn('Pushbullet error: ' + error.message);
-                    } else {
-                        //adapter.log.info('Pushbullet: '+response.body);
-                    }
-                });
+                try {
+                    await pusher.link(aryReceiver[index], msg.title, msg.link);
+                } catch (error) {
+                    adapter.log.warn(`Pushbullet error: ${error.message}`);
+                }
                 break;
             default:
-                pusher.note(aryReceiver[index], msg.title, msg.message, (error, response) => {
-                    if (error) {
-                        adapter.log.warn('Pushbullet error: ' + error.message);
-                    } else {
-                        //adapter.log.info('Pushbullet: '+response.body);
-                    }
-                });
+                try {
+                    await pusher.note(aryReceiver[index], msg.title, msg.message);
+                } catch (error) {
+                    adapter.log.warn(`Pushbullet error: ${error.message}`);
+                }
                 break;
         }
     }
 }
 
-function main() {
+async function main() {
     receiver = adapter.config.receivermail;
-    pusher = new Main(adapter.config.apikey);
-    pusher.devices({}, (error, response) => {
+    pusher = new PushBullet(adapter.config.apikey);
+    try {
+        const response = await pusher.devices({});
+        const devices = (await response.json()).devices;
         let found = false;
-        for (let i = 0; i < response.devices.length; i++) {
-            if (response.devices[i].nickname === 'ioBroker') {
+        for (let i = 0; i < devices.length; i++) {
+            if (devices[i].nickname === 'ioBroker') {
                 found = true
-                myIden = response.devices[i].iden;
+                myIden = devices[i].iden;
                 break;
             }
         }
 
         if (!found) {
-            pusher.createDevice('ioBroker', (error, response) =>
-                myIden = response.iden);
+            const resp = await pusher.createDevice({
+                nickname: 'ioBroker'
+            });
+            const device = await resp.json();
+            myIden = device.iden;
         }
-    });
+    } catch (error) {
+        adapter.log.error(`Pushbullet error: ${error.message}`);
+        return;
+    }
+
+    if (adapter.config.password) {
+        let response = await pusher.me();
+        let user = await response.json();
+
+        pusher.enableEncryption(adapter.config.password, user.iden);
+    }
 
     stream = pusher.stream();
     stream.connect();
@@ -199,56 +200,53 @@ function main() {
 
     stream.on('message', message => {
         // message received
-        adapter.log.debug('Message received - ' + message.type);
+        adapter.log.debug(`Message received - ${message.type}`);
         if (message.type === 'tickle') {
             handleTickle(message);
         } else if (message.type === 'push') {
             pushMsg(message.push);
+        } else if (message.type === 'nop') {
+            adapter.log.debug('Pushbullet DEBUG - keepalive');
         }
     });
 
-    stream.on('connect', () => {
+    stream.on('connect', async () => {
         // stream has connected
         adapter.log.debug('Pushbullet DEBUG - Stream connected');
 
-        pusher.history({limit: 1}, (err, res) => {
-            if (err) {
-                tsHistory = 0;
-            } else {
-                try {
-                    tsHistory = res.pushes[0].modified;
-                } catch (ex) {
-                    adapter.log.info('Unable to get history.');
-                    tsHistory = 0;
-                }
-            }
-        });
+        try {
+            const response = await pusher.history({ limit: 1 });
+            const history = await response.json();
+            tsHistory = history.pushes.length ? history.pushes[0].modified : 0;
+        } catch (err) {
+            adapter.log.info('Unable to get history.');
+            tsHistory = 0;
+        }
     });
 }
 
-function handleTickle(tickleMsg) {
+async function handleTickle(tickleMsg) {
     if (pusher && tickleMsg.subtype === 'push') {
-        adapter.log.debug('Pushbullet DEBUG - handleTickle : ' + tickleMsg.subtype);
-        pusher.history({modified_after: tsHistory}, (err, res) => {
-            if (err) {
-                adapter.log.info(err);
+        adapter.log.debug(`Pushbullet DEBUG - handleTickle : ${tickleMsg.subtype}`);
+        try {
+            const response = await pusher.history({ modified_after: tsHistory });
+            const history = await response.json();
+
+            for (let i = 0; i < history.pushes.length; i++) {
+                pushMsg(history.pushes[i]);
             }
-            for (let i = 0; i < res.pushes.length; i++) {
-                pushMsg(res.pushes[i]);
-            }
-            try {
-                tsHistory = res.pushes[0].modified;
-            } catch (ex) {
-                adapter.log.info('Unable to get history.');
-            }
-        });
+            tsHistory = history.pushes.length ? history.pushes[0].modified : 0;
+        } catch (err) {
+            adapter.log.info('Unable to get history.');
+            tsHistory = 0;
+        }
     }
 }
 
 function pushMsg(incoming) {
-    if (incoming.target_device_iden != myIden) {
-        adapter.log.debug('Receiver: ' + incoming.target_device_iden);
-        adapter.log.debug('My ID: ' + myIden);
+    if (incoming.target_device_iden !== myIden) {
+        adapter.log.debug(`Receiver: ${incoming.target_device_iden}`);
+        adapter.log.debug(`My ID: ${myIden}`);
         return;
     }
 
@@ -257,7 +255,7 @@ function pushMsg(incoming) {
         data: incoming
     };
 
-    adapter.log.debug('pushMsg: ' + incoming.type);
+    adapter.log.debug(`pushMsg: ${incoming.type}`);
 
     if (incoming.dismissed === true) {
         msg.pushtype = 'dismissal';

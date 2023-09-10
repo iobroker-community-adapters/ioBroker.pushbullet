@@ -31,6 +31,16 @@ table#devices, th#dvh, td#dvr {
 th#dvh, td#dvr {
     padding: 5px;
 }
+.react-dark {
+    color: white;
+}
+.react-dark table {
+    color: white;
+}
+.react-dark table#devices, .react-dark th#dvh, .react-dark td#dvr {
+    color: white;
+    border: 1px solid white;
+}
 </style>
 
 <!-- you have to define 2 functions in the global scope: -->
@@ -50,7 +60,7 @@ th#dvh, td#dvr {
         "Description text":  {
             "en": "Pushbullet adapter allows to push notes to devices via Pushbullet.<br>"
             +"Get you API-Key/Access-Token from <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">here</a><br>"
-            +"To find the ID of your device press the get devices button and copy and paste the id to the recipient field.",
+            +"To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.",
             "de": "Der Pushbullet Adapter erlaubt es dir push Nachrichten über Pushbullet zu schicken.<br>"
             +"Den API-Key/Access-Token bekommt man <a target=\"_blank\" href=\"https://www.pushbullet.com/account\">hier</a><br>"
             +"Um die ID eines Gerätes zu finden benutze den Geräte laden Knopf und kopiere die ID des Gerätes in das Empfänger Feld.",
@@ -155,7 +165,7 @@ th#dvh, td#dvr {
 					cell2.innerHTML = data.devices[i].nickname;
 					cell3.innerHTML = data.devices[i].type;
 					cell4.innerHTML = data.devices[i].iden;
-					if(receiver.indexOf(data.devices[i].iden) !== -1){
+					if (receiver.indexOf(data.devices[i].iden) !== -1) {
 						row.style.backgroundColor = '#00FF00';
 						document.getElementById('button_'+data.devices[i].iden).innerText = '-';
 					}
@@ -217,7 +227,7 @@ th#dvh, td#dvr {
 </script>
 
 <!-- you have to put your config page in a div with id adapter-container -->
-<div id="adapter-container">
+<div id="adapter-container" class="adapter-container">
 
     <table><tr>
         <td><img src="pushbullet.png" height="auto" width="128"></td>

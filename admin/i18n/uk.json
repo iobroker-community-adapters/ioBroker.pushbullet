@@ -1,0 +1,9 @@
+{
+  "API-Key": "API-ключ",
+  "Manage API-Keys": "Керуйте API-ключами",
+  "Receiver mail or device ID": "Пошта одержувача або ідентифікатор пристрою",
+  "Encryption password": "Пароль шифрування",
+  "optional": "необов'язковий",
+  "Pushbullet adapter allows to push notes to devices via Pushbullet.": "Адаптер Pushbullet дозволяє надсилати нотатки на пристрої через Pushbullet.",
+  "To find the ID of your device, press the get devices button and copy and paste the ID to the recipient field.": "Щоб знайти ідентифікатор свого пристрою, натисніть кнопку отримати пристрої та скопіюйте та вставте ідентифікатор у поле одержувача."
+}

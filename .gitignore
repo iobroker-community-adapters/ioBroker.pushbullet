@@ -43,4 +43,7 @@ Temporary Items
 .apdisk
 /package-lock.json
 /node_modules
+/src-admin/node_modules
+/src-admin/build
+/src-admin/package-lock.json
 /.idea

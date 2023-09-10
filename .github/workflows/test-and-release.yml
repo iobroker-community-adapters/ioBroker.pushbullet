@@ -23,16 +23,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
 
 
       - name: Install Dependencies
@@ -56,8 +52,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12.x, 14.x, 16.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x]
+        os: [ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v1
@@ -68,6 +64,9 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+
+      - name: Build
+        run: npm run build
 
       - name: Run local tests
         #         npm downgrade to 6 (mainly for node.js 16) is needed because else testing fails
@@ -94,18 +93,15 @@ jobs:
       github.event_name == 'push' &&
       startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 18.x
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 18.x
 
       - name: Extract the version and commit body from the tag
         id: extract_release
