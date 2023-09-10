@@ -42,7 +42,7 @@ sendTo("pushbullet", {
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-### 1.0.0 (2023-09-10)
+### **WORK IN PROGRESS**
 * (bluefox) Breaking change: Only node version 16+ supported
 * (bluefox) Added JSON config and used the latest version of a pushbullet library
 * (bluefox) Added encryption
