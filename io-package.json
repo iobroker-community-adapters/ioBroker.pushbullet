@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "pushbullet",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "Breaking change: Only node version 16+ supported\nAdded JSON config and used the latest version of a pushbullet library",
+        "de": "Wechsel: Nur Knotenversion 16+ unterstützt\nJSON config hinzugefügt und die neueste Version einer Pushbullet-Bibliothek verwendet",
+        "ru": "Перерыв изменений: Только нод версия 16+ поддерживается\nДобавлен JSON config и использовал последнюю версию библиотеки pushbullet",
+        "pt": "Mudança de ruptura: Somente nó versão 16+ suportado\nAdicionado JSON config e usado a versão mais recente de uma biblioteca pushbullet",
+        "nl": "Verandering: Alleen node versie 16+ ondersteund\nVoeg JSON toe en gebruikte de nieuwste versie van een pushbullet bibliotheek",
+        "fr": "Changement de rupture : Seulement la version 16+ supportée\nJSON a ajouté la configuration et utilisé la dernière version d'une bibliothèque pushbullet",
+        "it": "Cambiamento di rottura: Solo nodo versione 16+ supportato\nAggiunto JSON config e usato l'ultima versione di una libreria pushbullet",
+        "es": "Cambio de ruptura: Sólo versión de nodo 16+ compatible\nSe agregó JSON config y utilizó la última versión de una biblioteca de pushbullet",
+        "pl": "Zmiana: Wersja 16+\nAdded JSON i używał najnowszej wersji biblioteki pushbullet",
+        "uk": "Зміна розривів: Тільки версія вершини 16+ підтримується\nДодано налаштування JSON і використовується останню версію бібліотеки pushbullet",
+        "zh-cn": "断然变化: 只支持16个+\n增加联合新闻社联合会,并使用最近版本的推销图书馆"
+      },
       "0.1.0": {
         "en": "Refactoring",
         "de": "Refactoring",
