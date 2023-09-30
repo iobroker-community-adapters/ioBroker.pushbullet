@@ -42,7 +42,7 @@ sendTo("pushbullet", {
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.0.0-alpha.0 (2023-09-30)
 - (mcm1957) Adapter has been migrated to iobroker-community-adapters area
 - (mcm1957) Dependencies have been updated
 

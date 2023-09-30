@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "pushbullet",
-    "version": "1.0.1",
+    "version": "2.0.0-alpha.0",
     "news": {
+      "2.0.0-alpha.0": {
+        "en": "Adapter has been migrated to iobroker-community-adapters area\nDependencies have been updated",
+        "de": "Adapter wurde in den iobroker-community-adapters Bereich verschoben\nAbhängigkeiten wurden aktualisiert",
+        "ru": "Адаптер был мигрирован в зону iobroker-community-adapters\nВ зависимости были обновлены",
+        "pt": "Adapter foi migrado para iobroker-community-adapters area\nAs dependências foram atualizadas",
+        "nl": "Adapter is gemigreerd tot iobroker-community-adapters gebied\nAfhankelijkheid",
+        "fr": "L'adaptateur a été migré vers la zone d'iobroker-community-adapters\nLes dépendances ont été mises à jour",
+        "it": "L'adattatore è stato migrato nell'area di hobroker-community-adapters\nLe dipendenze sono state aggiornate",
+        "es": "Adaptador ha sido migrado a la zona de ibroker-community-adapters\nSe han actualizado las dependencias",
+        "pl": "Adapter migrowano do obszaru iobroker-kommunercyjnego\nZależności zostały zaktualizowane",
+        "uk": "Перехідник був мігрований на область iobroker-community-adapters\nОновлено залежність",
+        "zh-cn": "现已移到加勒比妓院区。\n已更新了属地"
+      },
       "1.0.1": {
         "en": "Breaking change: Only node version 16+ supported\nAdded JSON config and used the latest version of a pushbullet library\nAdded encryption",
         "de": "Wechsel: Nur Knotenversion 16+ unterstützt\nJSON config hinzugefügt und die neueste Version einer Pushbullet-Bibliothek verwendet\nErweiterte Verschlüsselung",
@@ -30,38 +43,38 @@
       }
     },
     "titleLang": {
-        "en": "Pushbullet",
-        "de": "Pinsel",
-        "ru": "Pushbullet",
-        "pt": "Empurre",
-        "nl": "Pushbullet",
-        "fr": "Pushbullet",
-        "it": "Pushbullet",
-        "es": "Pushbullet",
-        "pl": "Pushbullet",
-        "uk": "Кошик",
-        "zh-cn": "Pushbullet"
+      "en": "Pushbullet",
+      "de": "Pinsel",
+      "ru": "Pushbullet",
+      "pt": "Empurre",
+      "nl": "Pushbullet",
+      "fr": "Pushbullet",
+      "it": "Pushbullet",
+      "es": "Pushbullet",
+      "pl": "Pushbullet",
+      "uk": "Кошик",
+      "zh-cn": "Pushbullet"
     },
     "desc": {
-        "en": "Send messages via Pushbullet service",
-        "de": "Senden Sie Nachrichten über den Pushbullet-Dienst",
-        "ru": "Отправлять сообщения через сервис Pushbullet",
-        "pt": "Enviar mensagens via serviço Pushbullet",
-        "nl": "Berichten verzenden via Pushbullet-service",
-        "fr": "Envoyer des messages via le service Pushbullet",
-        "it": "Invia messaggi tramite il servizio Pushbullet",
-        "es": "Envía mensajes a través del servicio Pushbullet",
-        "pl": "Wysyłaj wiadomości za pośrednictwem usługi Pushbullet",
-        "zh-cn": "通过 Pushbullet 服务发送消息"
+      "en": "Send messages via Pushbullet service",
+      "de": "Senden Sie Nachrichten über den Pushbullet-Dienst",
+      "ru": "Отправлять сообщения через сервис Pushbullet",
+      "pt": "Enviar mensagens via serviço Pushbullet",
+      "nl": "Berichten verzenden via Pushbullet-service",
+      "fr": "Envoyer des messages via le service Pushbullet",
+      "it": "Invia messaggi tramite il servizio Pushbullet",
+      "es": "Envía mensajes a través del servicio Pushbullet",
+      "pl": "Wysyłaj wiadomości za pośrednictwem usługi Pushbullet",
+      "zh-cn": "通过 Pushbullet 服务发送消息"
     },
     "authors": [
-        "Jens1809 <cpthans@gmail.com>",
-        "iobroker-community-adapers <mcm57@gmx.at>"
+      "Jens1809 <cpthans@gmail.com>",
+      "iobroker-community-adapers <mcm57@gmx.at>"
     ],
     "keywords": [
-        "pid",
-        "controller",
-        "pid-controller"
+      "pid",
+      "controller",
+      "pid-controller"
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
@@ -81,14 +94,14 @@
       "config": "json"
     },
     "dependencies": [
-        {
-          "js-controller": ">=4.0.24"
-        }
+      {
+        "js-controller": ">=4.0.24"
+      }
     ],
     "globalDependencies": [
-        {
-          "admin": ">=5.1.13"
-        }
+      {
+        "admin": ">=5.1.13"
+      }
     ]
   },
   "encryptedNative": [
