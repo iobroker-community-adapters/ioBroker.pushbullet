@@ -29,40 +29,67 @@
         "zh-cn": "重构"
       }
     },
-    "license": "MIT",
-    "authors": [
-      "Jens1809 <cpthans@gmail.com>"
-    ],
-    "title": "Pushbullet",
     "titleLang": {
-      "en": "Pushbullet"
+        "en": "Pushbullet",
+        "de": "Pinsel",
+        "ru": "Pushbullet",
+        "pt": "Empurre",
+        "nl": "Pushbullet",
+        "fr": "Pushbullet",
+        "it": "Pushbullet",
+        "es": "Pushbullet",
+        "pl": "Pushbullet",
+        "uk": "Кошик",
+        "zh-cn": "Pushbullet"
     },
     "desc": {
-      "en": "Send messages via Pushbullet service",
-      "de": "Senden Sie Nachrichten über den Pushbullet-Dienst",
-      "ru": "Отправлять сообщения через сервис Pushbullet",
-      "pt": "Enviar mensagens via serviço Pushbullet",
-      "nl": "Berichten verzenden via Pushbullet-service",
-      "fr": "Envoyer des messages via le service Pushbullet",
-      "it": "Invia messaggi tramite il servizio Pushbullet",
-      "es": "Envía mensajes a través del servicio Pushbullet",
-      "pl": "Wysyłaj wiadomości za pośrednictwem usługi Pushbullet",
-      "zh-cn": "通过 Pushbullet 服务发送消息"
+        "en": "Send messages via Pushbullet service",
+        "de": "Senden Sie Nachrichten über den Pushbullet-Dienst",
+        "ru": "Отправлять сообщения через сервис Pushbullet",
+        "pt": "Enviar mensagens via serviço Pushbullet",
+        "nl": "Berichten verzenden via Pushbullet-service",
+        "fr": "Envoyer des messages via le service Pushbullet",
+        "it": "Invia messaggi tramite il servizio Pushbullet",
+        "es": "Envía mensajes a través del servicio Pushbullet",
+        "pl": "Wysyłaj wiadomości za pośrednictwem usługi Pushbullet",
+        "zh-cn": "通过 Pushbullet 服务发送消息"
     },
+    "authors": [
+        "Jens1809 <cpthans@gmail.com>",
+        "iobroker-community-adapers <mcm57@gmx.at>"
+    ],
+    "keywords": [
+        "pid",
+        "controller",
+        "pid-controller"
+    ],
+    "license": "MIT",
     "platform": "Javascript/Node.js",
-    "mode": "daemon",
-    "messagebox": true,
-    "compact": true,
+    "main": "main.js",
     "icon": "pushbullet.png",
-    "readme": "https://github.com/Jens1809/ioBroker.pushbullet/blob/master/README.md",
-    "extIcon": "https://raw.githubusercontent.com/Jens1809/ioBroker.pushbullet/master/admin/pushbullet.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.pushbullet/master/admin/pushbullet.png",
+    "readme": "https://github.com/iobroker-community-adapters/ioBroker.pushbullet/blob/master/README.md",
     "loglevel": "info",
+    "mode": "daemon",
     "type": "messaging",
+    "compact": true,
+    "messagebox": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
     "adminUI": {
       "config": "json"
     },
-    "connectionType": "cloud",
-    "dataSource": "poll"
+    "dependencies": [
+        {
+          "js-controller": ">=4.0.24"
+        }
+    ],
+    "globalDependencies": [
+        {
+          "admin": ">=5.1.13"
+        }
+    ]
   },
   "encryptedNative": [
     "password"

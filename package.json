@@ -2,23 +2,31 @@
   "name": "iobroker.pushbullet",
   "version": "1.0.1",
   "description": "Pushbullet Adapter for ioBroker",
-  "author": "Jens1809<cpthans@gmail.com>",
-  "homepage": "https://github.com/Jens1809/ioBroker.pushbullet",
+  "author": {
+    "name": "Jens1809",
+    "email": "cpthans@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "iobroker-community-adapters",
+      "email": "mcm57@gmx.at"
+    }
+  ],
+  "contributors": [
+    {
+        "name": "mcm1957",
+        "email": "mcm57@gmx.at"
+    }
+  ],
+  "homepage": "https://github.com/iobroker-community-adapters/ioBroker.pushbullet",
+  "license": "MIT",
   "keywords": [
     "ioBroker",
     "pushbullet"
   ],
-  "files": [
-    "admin/",
-    "io-package.json",
-    "package.json",
-    "README.md",
-    "main.js",
-    "LICENSE"
-  ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Jens1809/ioBroker.pushbullet"
+    "url": "https://github.com/iobroker-community-adapters/ioBroker.pushbullet"
   },
   "engines": {
     "node": ">=16"
@@ -34,11 +42,16 @@
     "mocha": "^10.2.0",
     "chai": "^4.3.10"
   },
-  "bugs": {
-    "url": "https://github.com/Jens1809/ioBroker.pushbullet/issues"
-  },
   "main": "main.js",
-  "license": "MIT",
+  "files": [
+    "admin{,/!(src)/**}/!(tsconfig|tsconfig.*|.eslintrc).json",
+    "admin{,/!(src)/**}/*.{html,css,png,svg,jpg,js}",
+    "lib/",
+    "www/",
+    "io-package.json",
+    "LICENSE",
+    "main.js"
+  ],
   "scripts": {
     "build": "gulp",
     "test": "node node_modules/mocha/bin/mocha --exit",
@@ -48,5 +61,9 @@
     "release-major": "release-script major --yes",
     "update-packages": "ncu --upgrade && cd src-admin && ncu --upgrade && cd ..",
     "npm": "npm i && cd src-admin && npm i -f && cd .."
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Jiobroker-community-adapters/ioBroker.pushbullet/issues"
+  },
+  "readmeFilename": "README.md"
 }
