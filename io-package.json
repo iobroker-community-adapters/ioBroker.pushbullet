@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "pushbullet",
-    "version": "2.0.0-alpha.0",
+    "version": "2.0.0",
     "news": {
+      "2.0.0": {
+        "en": "first official release after migration to iobroker-community-adapters",
+        "de": "erste offizielle veröffentlichung nach migration zu iobroker-community-adapters",
+        "ru": "первый официальный релиз после миграции на iobroker-community-adapters",
+        "pt": "primeiro lançamento oficial após a migração para o iobroker-community-adapters",
+        "nl": "eerste officiële vrijlating na migratie tot iobroker-community-adapters",
+        "fr": "première libération officielle après la migration vers les adaptateurs iobroker-community",
+        "it": "primo rilascio ufficiale dopo la migrazione a iobroker-community-adapters",
+        "es": "primer lanzamiento oficial después de la migración a ibroker-community-adapters",
+        "pl": "pierwsze oficjalne wydanie po migracji do iobroker-community-adapter",
+        "uk": "перший офіційний реліз після міграції до iobroker-community-adapters",
+        "zh-cn": "首次在移徙之后正式释放了iobroker-community-adapters"
+      },
       "2.0.0-alpha.0": {
         "en": "Adapter has been migrated to iobroker-community-adapters area\nDependencies have been updated",
         "de": "Adapter wurde in den iobroker-community-adapters Bereich verschoben\nAbhängigkeiten wurden aktualisiert",

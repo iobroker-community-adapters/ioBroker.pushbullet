@@ -42,7 +42,7 @@ sendTo("pushbullet", {
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.0.0 (2023-10-09)
 - (mcm1957) first official release after migration to iobroker-community-adapters
 
 ### 2.0.0-alpha.0 (2023-09-30)
