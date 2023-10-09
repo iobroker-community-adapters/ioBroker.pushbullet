@@ -42,6 +42,9 @@ sendTo("pushbullet", {
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
+### **WORK IN PROGRESS**
+- (mcm1957) Dependencies have been updated
+
 ### 2.0.0 (2023-10-09)
 - (mcm1957) first official release after migration to iobroker-community-adapters
 
