@@ -42,7 +42,7 @@ sendTo("pushbullet", {
 	### **WORK IN PROGRESS**
 -->
 ## Changelog
-### **WORK IN PROGRESS**
+### 2.0.1 (2023-10-09)
 - (mcm1957) Dependencies have been updated
 
 ### 2.0.0 (2023-10-09)

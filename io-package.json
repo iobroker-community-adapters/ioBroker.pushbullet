@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "pushbullet",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "news": {
+      "2.0.1": {
+        "en": "Dependencies have been updated",
+        "de": "Abhängigkeiten wurden aktualisiert",
+        "ru": "В зависимости были обновлены",
+        "pt": "As dependências foram atualizadas",
+        "nl": "Afhankelijkheid",
+        "fr": "Les dépendances ont été mises à jour",
+        "it": "Le dipendenze sono state aggiornate",
+        "es": "Se han actualizado las dependencias",
+        "pl": "Zależności zostały zaktualizowane",
+        "uk": "Оновлено залежність",
+        "zh-cn": "已更新了属地"
+      },
       "2.0.0": {
         "en": "first official release after migration to iobroker-community-adapters",
         "de": "erste offizielle veröffentlichung nach migration zu iobroker-community-adapters",
