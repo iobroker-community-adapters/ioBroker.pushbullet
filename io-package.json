@@ -102,7 +102,10 @@
       "controller",
       "pid-controller"
     ],
-    "license": "MIT",
+    "licenseInformation": {
+      "license": "MIT",
+      "type": "free"
+    },
     "platform": "Javascript/Node.js",
     "main": "main.js",
     "icon": "pushbullet.png",
@@ -110,6 +113,7 @@
     "extIcon": "https://raw.githubusercontent.com/iobroker-community-adapters/ioBroker.pushbullet/master/admin/pushbullet.png",
     "readme": "https://github.com/iobroker-community-adapters/ioBroker.pushbullet/blob/master/README.md",
     "loglevel": "info",
+    "tier": 2,
     "mode": "daemon",
     "type": "messaging",
     "compact": true,
