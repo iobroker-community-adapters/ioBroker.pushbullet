@@ -1,0 +1,219 @@
+# GitHub Action Template: Automated Version Check and Update for ioBroker Copilot Instructions
+# Version: 0.4.0
+# 
+# This action automatically checks for template updates and creates issues when updates are available
+# Copy this to your repository as .github/workflows/check-copilot-template.yml
+
+name: Check ioBroker Copilot Template Version
+
+on:
+  schedule:
+    - cron: '23 3 * * 0'  # Weekly check optimized for off-peak hours (3:23 AM UTC Sunday)
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  check-template:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Dynamic template version check
+        id: version-check
+        run: |
+          echo "🔍 Starting dynamic ioBroker Copilot template version check..."
+          
+          # Get current version from local copilot instructions
+          if [ -f ".github/copilot-instructions.md" ]; then
+            CURRENT_VERSION=$(awk '/Version:|Template Version:/ {match($0, /([0-9]+(\.[0-9]+)*)/, arr); if (arr[1] != "") print arr[1]}' .github/copilot-instructions.md | head -1)
+            if [ -z "$CURRENT_VERSION" ]; then CURRENT_VERSION="unknown"; fi
+            echo "📋 Current local version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION="none"
+            echo "❌ No .github/copilot-instructions.md file found"
+          fi
+          
+          # Get latest version from centralized metadata
+          echo "🌐 Fetching latest template version from centralized config..."
+          LATEST_VERSION=$(curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/config/metadata.json | jq -r '.version' 2>/dev/null || echo "unknown")
+          if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "null" ]; then
+            LATEST_VERSION="unknown"
+          fi
+          echo "📋 Latest available version: $LATEST_VERSION"
+          
+          # Determine repository status
+          COPILOT_INITIALIZED="false"
+          UPDATE_NEEDED="false"
+          
+          if [ "$CURRENT_VERSION" = "none" ]; then
+            echo "🔄 Repository status: NOT_INITIALIZED"
+            echo "action_needed=SETUP" >> $GITHUB_OUTPUT
+          elif [ "$CURRENT_VERSION" = "unknown" ] || [ "$LATEST_VERSION" = "unknown" ]; then
+            echo "⚠️ Repository status: VERSION_CHECK_FAILED"
+            echo "action_needed=CHECK_FAILED" >> $GITHUB_OUTPUT
+          else
+            COPILOT_INITIALIZED="true"
+            # Simple version comparison (assumes semantic versioning)
+            if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
+              # More sophisticated version comparison could be added here
+              UPDATE_NEEDED="true"
+              echo "📈 Repository status: UPDATE_AVAILABLE"
+              echo "action_needed=UPDATE" >> $GITHUB_OUTPUT
+            else
+              echo "✅ Repository status: UP_TO_DATE"
+              echo "action_needed=NONE" >> $GITHUB_OUTPUT
+            fi
+          fi
+          
+          # Export all versions for later steps
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "latest_version=$LATEST_VERSION" >> $GITHUB_OUTPUT
+          echo "copilot_initialized=$COPILOT_INITIALIZED" >> $GITHUB_OUTPUT
+          echo "update_needed=$UPDATE_NEEDED" >> $GITHUB_OUTPUT
+      
+      - name: Check for existing issues
+        id: issue-check
+        if: steps.version-check.outputs.action_needed != 'NONE'
+        run: |
+          echo "🔍 Checking for existing template update issues..."
+          
+          # Check if there's already an open issue about template updates
+          EXISTING_ISSUE=$(gh issue list --label "template-update" --state open --json number,title | jq -r '.[0].number // "none"')
+          
+          if [ "$EXISTING_ISSUE" != "none" ]; then
+            echo "📋 Found existing template update issue #$EXISTING_ISSUE"
+            echo "existing_issue=$EXISTING_ISSUE" >> $GITHUB_OUTPUT
+          else
+            echo "✅ No existing template update issues found"
+            echo "existing_issue=none" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create setup issue
+        if: steps.version-check.outputs.action_needed == 'SETUP' && steps.issue-check.outputs.existing_issue == 'none'
+        run: |
+          echo "🎯 Creating initial setup issue..."
+          
+          # Get adapter name for personalized issue
+          ADAPTER_NAME="this adapter"
+          if [ -f "package.json" ]; then
+            ADAPTER_NAME=$(jq -r '.name' package.json 2>/dev/null | sed 's/^iobroker\.//' || echo "this adapter")
+          fi
+          
+          # Create issue for initial setup
+          gh issue create \
+            --title "🤖 Setup ioBroker GitHub Copilot Instructions" \
+            --label "copilot-setup,automation" \
+            --assignee "@me" \
+            --body "$(curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/templates/initial-setup-automation.md)" || {
+            echo "❌ Failed to create setup issue"
+            exit 1
+          }
+          
+          echo "✅ Created initial setup issue for $ADAPTER_NAME"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Create update issue
+        if: steps.version-check.outputs.action_needed == 'UPDATE' && steps.issue-check.outputs.existing_issue == 'none'
+        run: |
+          echo "📈 Creating template update issue..."
+          
+          # Get adapter name for personalized issue
+          ADAPTER_NAME="this adapter"
+          if [ -f "package.json" ]; then
+            ADAPTER_NAME=$(jq -r '.name' package.json 2>/dev/null | sed 's/^iobroker\.//' || echo "this adapter")
+          fi
+          
+          CURRENT_VERSION="${{ steps.version-check.outputs.current_version }}"
+          LATEST_VERSION="${{ steps.version-check.outputs.latest_version }}"
+          
+          # Create update issue with template content
+          UPDATE_TEMPLATE=$(curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/templates/automated-template-update.md)
+          
+          # Replace placeholders in template
+          UPDATE_BODY=$(echo "$UPDATE_TEMPLATE" | sed "s/CURRENT_VERSION_PLACEHOLDER/$CURRENT_VERSION/g" | sed "s/LATEST_VERSION_PLACEHOLDER/$LATEST_VERSION/g")
+          
+          gh issue create \
+            --title "📋 Update ioBroker Copilot Template (v$CURRENT_VERSION → v$LATEST_VERSION)" \
+            --label "template-update,automation" \
+            --assignee "@me" \
+            --body "$UPDATE_BODY" || {
+            echo "❌ Failed to create update issue"
+            exit 1
+          }
+          
+          echo "✅ Created template update issue for $ADAPTER_NAME (v$CURRENT_VERSION → v$LATEST_VERSION)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Handle version check failure
+        if: steps.version-check.outputs.action_needed == 'CHECK_FAILED' && steps.issue-check.outputs.existing_issue == 'none'
+        run: |
+          echo "⚠️ Creating version check failure issue..."
+          
+          CURRENT_VERSION="${{ steps.version-check.outputs.current_version }}"
+          LATEST_VERSION="${{ steps.version-check.outputs.latest_version }}"
+          
+          cat > /tmp/issue_body.md << EOF
+          # Version Check Failed
+
+          The automated version check for ioBroker Copilot template encountered an issue:
+
+          - **Current Version**: $CURRENT_VERSION  
+          - **Latest Version**: $LATEST_VERSION  
+
+          ## Possible Causes
+          - Network connectivity issues
+          - Changes in metadata.json structure
+          - Local copilot-instructions.md format issues
+
+          ## Manual Resolution
+          1. Check [template repository](https://github.com/DrozmotiX/ioBroker-Copilot-Instructions) for updates
+          2. Verify .github/copilot-instructions.md has proper version format
+          3. Re-run this workflow manually once issues are resolved
+
+          This issue was created automatically by the template version check workflow.
+          EOF
+          
+          gh issue create \
+            --title "⚠️ ioBroker Copilot Template Version Check Failed" \
+            --label "template-update,bug" \
+            --body-file /tmp/issue_body.md || {
+            echo "❌ Failed to create version check failure issue"
+            exit 1
+          }
+          
+          echo "✅ Created version check failure issue"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Summary
+        run: |
+          echo "📊 Template Version Check Summary"
+          echo "=================================="
+          echo "Current Version: ${{ steps.version-check.outputs.current_version }}"
+          echo "Latest Version: ${{ steps.version-check.outputs.latest_version }}"
+          echo "Action Needed: ${{ steps.version-check.outputs.action_needed }}"
+          echo "Existing Issue: ${{ steps.issue-check.outputs.existing_issue }}"
+          echo ""
+          
+          case "${{ steps.version-check.outputs.action_needed }}" in
+            "NONE")
+              echo "✅ Repository is up-to-date with the latest template version"
+              ;;
+            "SETUP")
+              echo "🎯 Initial setup issue created - GitHub Copilot instructions need to be set up"
+              ;;
+            "UPDATE")
+              echo "📈 Update issue created - newer template version is available"
+              ;;
+            "CHECK_FAILED")
+              echo "⚠️ Version check failed - manual intervention may be required"
+              ;;
+          esac

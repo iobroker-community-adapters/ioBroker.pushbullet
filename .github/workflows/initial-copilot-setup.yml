@@ -1,0 +1,141 @@
+# GitHub Action Template: Initial ioBroker Copilot Setup
+# Version: 0.4.0
+# 
+# This action handles the initial setup of GitHub Copilot instructions for ioBroker adapters
+# Copy this to your repository as .github/workflows/initial-copilot-setup.yml
+
+name: Initial ioBroker Copilot Setup
+
+on:
+  workflow_dispatch:  # Manual triggering for initial setup
+    inputs:
+      force_setup:
+        description: 'Force setup even if copilot-instructions.md already exists'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  initial-setup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Check repository structure
+        id: repo-check
+        run: |
+          echo "🔍 Analyzing repository structure..."
+          
+          # Check if this is an ioBroker adapter
+          IOBROKER_ADAPTER="false"
+          if [ -f "package.json" ] && grep -q "iobroker" package.json; then
+            IOBROKER_ADAPTER="true"
+          elif [ -f "io-package.json" ]; then
+            IOBROKER_ADAPTER="true"
+          fi
+          
+          echo "is_iobroker_adapter=$IOBROKER_ADAPTER" >> $GITHUB_OUTPUT
+          
+          # Check if copilot instructions already exist
+          COPILOT_EXISTS="false"
+          if [ -f ".github/copilot-instructions.md" ]; then
+            COPILOT_EXISTS="true"
+          fi
+          echo "copilot_exists=$COPILOT_EXISTS" >> $GITHUB_OUTPUT
+          
+          # Get adapter name and details
+          ADAPTER_NAME="unknown"
+          if [ -f "package.json" ]; then
+            ADAPTER_NAME=$(jq -r '.name' package.json 2>/dev/null | sed 's/^iobroker\.//' || echo "unknown")
+          fi
+          echo "adapter_name=$ADAPTER_NAME" >> $GITHUB_OUTPUT
+          
+          echo "Repository analysis complete:"
+          echo "- ioBroker adapter: $IOBROKER_ADAPTER"
+          echo "- Copilot instructions exist: $COPILOT_EXISTS"
+          echo "- Adapter name: $ADAPTER_NAME"
+      
+      - name: Validate repository
+        run: |
+          if [ "${{ steps.repo-check.outputs.is_iobroker_adapter }}" != "true" ]; then
+            echo "❌ This does not appear to be an ioBroker adapter repository"
+            echo "Required: package.json with 'iobroker' reference or io-package.json file"
+            exit 1
+          fi
+          
+          if [ "${{ steps.repo-check.outputs.copilot_exists }}" = "true" ] && [ "${{ github.event.inputs.force_setup }}" != "true" ]; then
+            echo "ℹ️ GitHub Copilot instructions already exist"
+            echo "Use 'force_setup: true' to overwrite existing instructions"
+            exit 0
+          fi
+      
+      - name: Setup GitHub Copilot Instructions
+        if: steps.repo-check.outputs.is_iobroker_adapter == 'true'
+        run: |
+          echo "🚀 Setting up GitHub Copilot instructions for ${{ steps.repo-check.outputs.adapter_name }} adapter..."
+          
+          # Create .github directory if it doesn't exist
+          mkdir -p .github
+          
+          # Get the latest template version
+          echo "📥 Downloading latest template..."
+          curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/config/metadata.json > /tmp/metadata.json
+          TEMPLATE_VERSION=$(jq -r '.version' /tmp/metadata.json)
+          
+          # Download and process template
+          curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/template.md > /tmp/template.md
+          
+          # Extract content after the template instructions (after the --- line)
+          awk '/^---$/,0' /tmp/template.md | tail -n +2 > .github/copilot-instructions.md
+          
+          echo "✅ GitHub Copilot instructions created with template version: $TEMPLATE_VERSION"
+      
+      - name: Create automation workflow
+        if: steps.repo-check.outputs.is_iobroker_adapter == 'true'
+        run: |
+          echo "🔄 Setting up automated version checking workflow..."
+          
+          # Create the version check workflow
+          mkdir -p .github/workflows
+          curl -s https://raw.githubusercontent.com/DrozmotiX/ioBroker-Copilot-Instructions/main/templates/ghAction-AutomatedVersionCheckAndUpdate.yml > .github/workflows/check-copilot-template.yml
+          
+          echo "✅ Automated version check workflow created"
+      
+      - name: Commit changes
+        if: steps.repo-check.outputs.is_iobroker_adapter == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          git add .github/copilot-instructions.md .github/workflows/check-copilot-template.yml
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Setup GitHub Copilot instructions for ioBroker adapter - Added GitHub Copilot instructions with latest template, setup automated version checking workflow, configured for ${{ steps.repo-check.outputs.adapter_name }} adapter"
+            
+            git push
+            echo "✅ Changes committed and pushed"
+          fi
+      
+      - name: Setup summary
+        if: steps.repo-check.outputs.is_iobroker_adapter == 'true'
+        run: |
+          echo "🎉 GitHub Copilot setup completed successfully!"
+          echo ""
+          echo "What was created:"
+          echo "- 📄 .github/copilot-instructions.md - GitHub Copilot instructions"
+          echo "- 🔄 .github/workflows/check-copilot-template.yml - Automated version checking"
+          echo ""
+          echo "Next steps:"
+          echo "1. GitHub Copilot will now provide enhanced suggestions for ioBroker development"
+          echo "2. The version check workflow will run weekly to detect template updates"
+          echo "3. Customize the [CUSTOMIZE] sections in copilot-instructions.md if needed"
+          echo ""
+          echo "🚀 Happy coding with GitHub Copilot!"
