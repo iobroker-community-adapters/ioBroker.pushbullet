@@ -2,19 +2,14 @@
   "name": "iobroker.pushbullet",
   "version": "2.1.0",
   "description": "Pushbullet Adapter for ioBroker",
-  "author": {
-    "name": "Jens1809",
-    "email": "cpthans@gmail.com"
-  },
+  "author": "Jens1809 <cpthans@gmail.com>",
+  "contributors": [
+    "mcm1957 <mcm57@gmx.at>",
+    "iobroker-community-adapters <iobroker-community-adapters@gmx.de>"
+  ],
   "maintainers": [
     {
       "name": "iobroker-community-adapters",
-      "email": "mcm57@gmx.at"
-    }
-  ],
-  "contributors": [
-    {
-      "name": "mcm1957",
       "email": "mcm57@gmx.at"
     }
   ],
