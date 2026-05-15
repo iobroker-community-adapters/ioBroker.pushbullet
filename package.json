@@ -24,7 +24,7 @@
     "url": "https://github.com/iobroker-community-adapters/ioBroker.pushbullet"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "dependencies": {
     "pushbullet": "~3.0.0",
