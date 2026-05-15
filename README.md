@@ -93,6 +93,8 @@ sendTo("pushbullet", {
 ### 0.0.6 (2015-07-25)
 * (Jens1809) Publish on NPM
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 The MIT License (MIT)
