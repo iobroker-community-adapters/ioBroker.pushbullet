@@ -1,0 +1,26 @@
+// Root tsconfig: powers editor support and type checking for the backend sources.
+// It never emits - the actual compilation is configured in tsconfig.build.json.
+{
+    "compilerOptions": {
+        "noEmit": true,
+        "allowJs": false,
+        "checkJs": false,
+        "skipLibCheck": true,
+        "module": "Node16",
+        "moduleResolution": "Node16",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "strict": true,
+        "useUnknownInCatchVariables": false,
+        "target": "es2022",
+        "lib": ["es2023"],
+        "sourceMap": true,
+        "inlineSourceMap": false,
+        "removeComments": false,
+        "declaration": false,
+        "outDir": "./build",
+        "types": ["node", "@iobroker/types"]
+    },
+    "include": ["src/**/*.ts", "tasks.ts"],
+    "exclude": ["node_modules/**", "admin/**", "src-admin/**", "test/**", "build/**"]
+}

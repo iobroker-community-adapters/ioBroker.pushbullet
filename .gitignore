@@ -7,6 +7,10 @@
 node_modules
 nbproject
 
+# compiler output of the backend and of the admin component
+build/
+src-admin/build/
+
 # npm package files
 iobroker.*.tgz
 

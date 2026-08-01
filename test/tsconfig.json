@@ -1,6 +1,10 @@
+// The tests are plain JavaScript, so they need `allowJs` which the root config switches off
 {
     "extends": "../tsconfig.json",
     "compilerOptions": {
+        "noEmit": true,
+        "allowJs": true,
+        "checkJs": false,
         "noImplicitAny": false
     },
     "include": ["./**/*.js"]

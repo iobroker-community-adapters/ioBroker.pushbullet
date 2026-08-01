@@ -66,7 +66,8 @@
       "lg": 6,
       "i18n": true,
       "url": "custom/customComponents.js",
-      "name": "ConfigCustomPushbulletSet/Components/PushbulletComponent"
+      "name": "ConfigCustomPushbulletSet/Components/PushbulletComponent",
+      "guiApi": 2
     }
   }
 }

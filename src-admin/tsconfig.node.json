@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "module": "ESNext",
+        // `Bundler` replaces the deprecated `Node` resolution and is what vite itself uses
+        "moduleResolution": "Bundler",
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "types": ["node"]
+    },
+    "include": ["vite.config.ts"]
+}
