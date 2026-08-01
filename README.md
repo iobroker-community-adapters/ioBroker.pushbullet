@@ -44,8 +44,7 @@ sendTo("pushbullet", {
 -->
 
 ### **WORK IN PROGRESS**
-- (bluefox) The adapter was rewritten in TypeScript
-- (bluefox) The build was migrated from gulp to `tasks.ts`
+- (@GermanBluefox) The gulp build was replaced by `tasks.ts`
 - (copilot) Adapter requires node.js >= 22 now
 - (copilot) Adapter requires admin >= 7.7.22 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now

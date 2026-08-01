@@ -46,7 +46,10 @@ class PushbulletAdapter extends Adapter {
         super({
             ...options,
             name: 'pushbullet',
-            ready: () => this.main(),
+            ready: () =>
+                this.main().catch(error =>
+                    this.log.error(`Cannot start adapter: ${error instanceof Error ? error.message : error}`),
+                ),
             message: obj => this.onMessage(obj),
             unload: callback => this.onUnload(callback),
         });
@@ -264,7 +267,9 @@ class PushbulletAdapter extends Adapter {
             if (message.type === 'tickle') {
                 void this.handleTickle(message);
             } else if (message.type === 'push') {
-                void this.pushMsg(message.push);
+                this.pushMsg(message.push).catch(error =>
+                    this.log.warn(`Cannot process push: ${error instanceof Error ? error.message : error}`),
+                );
             } else if (message.type === 'nop') {
                 this.log.debug('Pushbullet DEBUG - keepalive');
             }
