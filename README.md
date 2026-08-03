@@ -42,7 +42,7 @@ sendTo("pushbullet", {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### 3.0.0 (2026-08-03)
+### **WORK IN PROGRESS**
 - (@GermanBluefox) The gulp build was replaced by `tasks.ts`
 - (copilot) Adapter requires node.js >= 22 now
 - (copilot) Adapter requires admin >= 7.7.22 now

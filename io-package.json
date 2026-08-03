@@ -3,19 +3,6 @@
     "name": "pushbullet",
     "version": "3.0.0",
     "news": {
-      "3.0.0": {
-        "en": "The gulp build was replaced by `tasks.ts`\nAdapter requires node.js >= 22 now\nAdapter requires admin >= 7.7.22 now\nAdapter requires js-controller >= 6.0.11 now\nMigrated to admin 8 and to TypeScript 6",
-        "de": "Der Gulp-Build wurde durch `tasks.ts` ersetzt.\nDer Adapter benötigt jetzt Node.js >= 22.\nDer Adapter benötigt jetzt Administratorrechte ab Version 7.7.22.\nDer Adapter benötigt jetzt js-controller >= 6.0.11.\nMigration auf Admin 8 und TypeScript 6",
-        "ru": "Файл `gulp build` был заменен файлом `tasks.ts`.\nДля работы адаптера требуется Node.js версии >= 22.\nДля работы адаптера требуется версия admin >= 7.7.22.\nДля работы адаптера теперь требуется js-controller версии >= 6.0.11.\nПерешёл на admin 8 и TypeScript 6.",
-        "pt": "A compilação com Gulp foi substituída por `tasks.ts`.\nO adaptador agora requer Node.js >= 22.\nO adaptador agora requer o administrador na versão 7.7.22 ou superior.\nO adaptador agora requer js-controller >= 6.0.11.\nMigrado para o Admin 8 e para o TypeScript 6.",
-        "nl": "De gulp build is vervangen door `tasks.ts`.\nDe adapter vereist nu Node.js versie 22 of hoger.\nAdapter vereist nu beheerdersversie >= 7.7.22.\nDe adapter vereist nu js-controller >= 6.0.11.\nOvergestapt naar admin 8 en TypeScript 6.",
-        "fr": "La commande gulp build a été remplacée par `tasks.ts`\nL'adaptateur nécessite désormais Node.js >= 22.\nL'adaptateur nécessite désormais une version d'administrateur supérieure ou égale à 7.7.22.\nL'adaptateur requiert désormais js-controller >= 6.0.11\nMigration vers Admin 8 et TypeScript 6",
-        "it": "Il comando gulp build è stato sostituito da `tasks.ts`\nL'adattatore ora richiede Node.js >= 22\nL'adattatore richiede ora l'amministratore >= 7.7.22\nL'adattatore richiede js-controller >= 6.0.11\nMigrazione ad admin 8 e a TypeScript 6",
-        "es": "La compilación de gulp fue reemplazada por `tasks.ts`.\nEl adaptador ahora requiere node.js >= 22.\nEl adaptador ahora requiere administrador >= 7.7.22\nEl adaptador ahora requiere js-controller >= 6.0.11\nMigrado a admin 8 y a TypeScript 6.",
-        "pl": "Kompilacja Gulp została zastąpiona przez `tasks.ts`\nAdapter wymaga teraz node.js >= 22\nAdapter wymaga teraz administratora >= 7.7.22\nAdapter wymaga teraz js-controller >= 6.0.11\nPrzeniesiono do wersji admin 8 i TypeScript 6",
-        "uk": "Збірку gulp було замінено на `tasks.ts`\nАдаптер тепер вимагає node.js >= 22\nАдаптер тепер вимагає адміністратора >= 7.7.22\nАдаптер тепер вимагає js-controller >= 6.0.11\nПеренесено на admin 8 та TypeScript 6",
-        "zh-cn": "gulp 构建被 `tasks.ts` 取代。\n适配器现在需要 node.js 版本 >= 22。\n适配器现在需要管理员版本 >= 7.7.22。\n适配器现在需要 js-controller >= 6.0.11。\n已迁移到 admin 8 和 TypeScript 6"
-      },
       "2.1.0": {
         "en": "Adapter requires node.js >= 18 and js-controller >= 5 now\nDependencies have been updated",
         "de": "Adapter benötigt node.js >= 18 und js-controller >= 5 jetzt\nAbhängigkeiten wurden aktualisiert",
