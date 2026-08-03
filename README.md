@@ -42,7 +42,7 @@ sendTo("pushbullet", {
     Placeholder for the next version (at the beginning of the line):
     ### **WORK IN PROGRESS**
 -->
-### **WORK IN PROGRESS**
+### 3.0.1 (2026-08-03)
 - (@GermanBluefox) The gulp build was replaced by `tasks.ts`
 - (copilot) Adapter requires node.js >= 22 now
 - (copilot) Adapter requires admin >= 7.7.22 now
@@ -62,6 +62,7 @@ sendTo("pushbullet", {
 ### 2.0.0-alpha.0 (2023-09-30)
 - (mcm1957) Adapter has been migrated to iobroker-community-adapters area
 - (mcm1957) Dependencies have been updated
+
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 
