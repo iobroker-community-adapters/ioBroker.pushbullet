@@ -45,7 +45,7 @@ sendTo("pushbullet", {
 ### 3.0.1 (2026-08-03)
 - (@GermanBluefox) The gulp build was replaced by `tasks.ts`
 - (copilot) Adapter requires node.js >= 22 now
-- (copilot) Adapter requires admin >= 7.7.22 now
+- (copilot) Adapter requires admin >= 8.0.0 now
 - (copilot) Adapter requires js-controller >= 6.0.11 now
 - (@GermanBluefox) Migrated to admin 8 and to TypeScript 6
 
