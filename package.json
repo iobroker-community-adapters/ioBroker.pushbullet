@@ -39,7 +39,7 @@
     "@iobroker/build-tools": "^3.0.1",
     "@iobroker/eslint-config": "^2.3.4",
     "@iobroker/testing": "^6.1.2",
-    "@tsconfig/node22": "^22.0.5",
+    "@tsconfig/node22": "^22.0.6",
     "@types/node": "^22.20.1",
     "tsx": "^4.23.8",
     "typescript": "~6.0.3"
